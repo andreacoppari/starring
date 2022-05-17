@@ -1,5 +1,9 @@
-# starring
+# Introduction
 Starring platform
 
-# branch
-Development of Home Page
+# How to use
+```
+npm i
+npm run dev
+```
+

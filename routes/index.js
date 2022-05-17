@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
 // @route   GET /home
 router.get('/login', (req, res) => {
     res.render('login',
-    {layout: 'login'})
+    {layout: 'login'
+    })
 })
 
 module.exports = router

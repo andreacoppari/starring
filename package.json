@@ -2,9 +2,10 @@
   "name": "@bitliner/starring",
   "version": "1.0.0",
   "description": "Starring platform",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=production node app",
+    "dev": "cross-env NODE_ENV=development node app"
   },
   "repository": {
     "type": "git",

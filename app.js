@@ -1,12 +1,12 @@
 const express = require('express')
-const dotenv = rewuire('dotenv')
+const dotenv = require('dotenv')
 
 //load
-dotenv.config({ path: '.config/config.env' })
+dotenv.config({ path: './config/config.env' })
 
 const app = express()
 
-const PORT = process.env.PORT || 1234
+const PORT = process.env.PORT || 8000
 
 app.listen(
     PORT,

@@ -33,6 +33,9 @@
   background-color: #ddd;
   outline: none;
 }
+.form_content input[type=checkbox]{
+  margin-bottom: 15px;
+}
 .clearfix{
   text-align: center;
   justify-content: center;

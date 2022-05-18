@@ -14,4 +14,9 @@ router.get('/login', (req, res) => {
     {layout: 'login'})
 })
 
+router.get('/signup', (req, res) => {
+    res.render('signup',
+    {layout: 'login'})
+})
+
 module.exports = router

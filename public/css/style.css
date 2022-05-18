@@ -24,10 +24,6 @@ p {
 }
 .nav{
     width: 100%;
-    background-color: red;
-}
-.navbar_container a{
-    padding: 14px 20px;
 }
 .navbar_container{
     background-color: rgb(32, 32, 32);
@@ -42,7 +38,14 @@ p {
     box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
 }
 .navbar_container a{
+    padding: 14px 20px;
     font-size: 26px;
+    text-decoration: none;
+    color: inherit;
+}
+.navbar_container a i:hover{
+    cursor: pointer;
+    color: #ccc;;
 }
 .coontainer .search-navbar_container{
     float: right;
@@ -193,7 +196,7 @@ p {
     height: 360px;
     width: 700px;
     text-align: center;
-    background-image: url("img/batman.jpg");
+    background-image: url("../img/batman.jpg");
     background-size: 100%;
     box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
 }

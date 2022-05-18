@@ -15,4 +15,10 @@ router.get('/login', (req, res) => {
     })
 })
 
+// @desc    Signup
+// @route   GET /signup
+router.get('/signup', (req, res) => {
+    res.render('signup')
+})
+
 module.exports = router

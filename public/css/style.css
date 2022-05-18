@@ -290,3 +290,16 @@ input[type=submit]{
 input[type=submit]:hover{
     cursor: pointer;
 }
+
+@media only screen and (max-width: 1000px) {
+    .navbar_container input[type=text]{
+        width: 250px;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+    .navbar_container{
+        padding: 0;
+  }
+}
+    

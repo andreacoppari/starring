@@ -8,6 +8,14 @@
         </div>
     </div>
 
+    <div>
+        <ul class="people_list">
+        {{#each test}}
+            <li>{{this.title}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
     <div class="film_list">
         <div class="film_list_title">
             <h3>Watchlist</h3>
@@ -17,7 +25,7 @@
             <a><img src="img/1.jpg"></a>
         </div>
     </div>
-
+    
     <div class="film_list">
         <div class="film_list_title">
             <h3>Recommended</h3>

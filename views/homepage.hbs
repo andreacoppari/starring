@@ -7,28 +7,15 @@
             <p><span><i class="fa fa-angle-right"></i></span></p>
         </div>
     </div>
-
-    <div class="film_list">
-        <div class="film_list_title">
-            <h3>Watchlist</h3>
-        </div>
-        <div class="film_list_content">
-            <a><img src="img/3.jpg"></a>
-            <a><img src="img/1.jpg"></a>
-        </div>
-    </div>
-
+    
     <div class="film_list">
         <div class="film_list_title">
             <h3>Recommended</h3>
         </div>
         <div class="film_list_content">
-            <a><img src="img/1.jpg"></a>
-            <a><img src="img/2.jpg"></a>
-            <a><img src="img/3.jpg"></a>
-            <a><img src="img/4.jpg"></a>
-            <a><img src="img/5.jpg"></a>
-            <a><img src="img/6.jpg"></a>
+            {{#each content}}
+            <a href="/film/{{this.id}}" title="{{this.title}}"><img src="img/{{this.id}}.jpg"></a>
+            {{/each}}
         </div>
     </div>
 
@@ -37,12 +24,9 @@
             <h3>New releases</h3>
         </div>
         <div class="film_list_content">
-            <a><img src="img/3.jpg"></a>
-            <a><img src="img/4.jpg"></a>
-            <a><img src="img/1.jpg"></a>
-            <a><img src="img/2.jpg"></a>
-            <a><img src="img/6.jpg"></a>
-            <a><img src="img/5.jpg"></a>
+            {{#each content}}
+            <a href="/film/{{this.id}}" title="{{this.title}}"><img src="img/{{this.id}}.jpg"></a>
+            {{/each}}
         </div>
     </div>
 </div>

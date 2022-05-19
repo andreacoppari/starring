@@ -1,5 +1,5 @@
 <div class="sign_container">
-    <form action="#">
+    <form action="#" method="post">
         <div class="form_content">
             <h1>Registrati al sito</h1>
             <div class="auth_google">
@@ -8,18 +8,19 @@
             </div>
 
             <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Username" name="username" required>
+            <input type="text" placeholder="Username" name="username">
 
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Email" name="email" required>
+            <input type="text" placeholder="Email" name="email">
         
             <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Password" name="password" required>
+            <input type="password" placeholder="Password" name="password">
 
             <label for="password-repeat"><b>Ripeti password</b></label>
-            <input type="password" placeholder="Ripeti password" name="password-repeat" required>
+            <input type="password" placeholder="Ripeti password" name="password-repeat">
             
             <label><input type="checkbox" checked="checked" name="remember"> Ricordami</label>
+            <a href="/login" style="float: right; color: inherit;" title="Accedi con il tuo account">Hai già un account?</a>
         
             <div class="clearfix">
                 <button type="submit">Conferma</button>

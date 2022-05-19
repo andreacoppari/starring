@@ -35,4 +35,15 @@ router.get('/film', (req, res) => {
     })
 })
 
+// @desc    Film
+// @route   GET /film/:id
+router.get('/film/:id', (req, res) => {
+    console.log("film_id: "+req.params.id);
+    mongoose.connection.db.collection('films').find({"id": new RegExp(req.params.id)}).toArray()
+    .then(results => {
+        console.log(results);
+        res.render('film', {layout: 'film', film: results})
+    })
+})
+
 module.exports = router

@@ -9,7 +9,7 @@ module.exports = {
     },
     ensureGuest: function (req, res, next) {
         if (req.isAuthenticated()) {
-            res.redirect('/homepage')
+            res.redirect('/')
         }
         else {
             return next()

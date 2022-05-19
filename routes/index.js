@@ -42,7 +42,12 @@ router.get('/film/:id', (req, res) => {
     mongoose.connection.db.collection('films').find({"id": new RegExp(req.params.id)}).toArray()
     .then(results => {
         console.log(results);
-        res.render('film', {layout: 'film', film: results})
+
+        // Check if there is at least one film in database, if not redirect to homepage
+        if(results.length > 0)
+            res.render('film', {layout: 'film', film: results})
+        else
+            res.redirect('/')
     })
 })
 

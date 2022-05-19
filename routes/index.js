@@ -5,9 +5,12 @@ const mongoose = require('mongoose');
 // @desc    Login/Landing page
 // @route   GET /
 router.get('/', (req, res) => {
-    mongoose.connection.db.collection('films').find().toArray()
-    .then(results => {
-        res.render('homepage', {content: results})
+    Promise.all([
+        mongoose.connection.db.collection('films').find().limit(10).sort({'releaseDate': 1}).toArray(),
+        mongoose.connection.db.collection('films').find().limit(10).sort({'releaseDate': -1}).toArray()
+    ])
+    .then(([film_recommended, film_new]) => {
+        res.render('homepage', {content_rec: film_recommended, content_new: film_new})
     })
 })
 

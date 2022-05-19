@@ -5,15 +5,23 @@ from sentiment_analysis import get_starring_rating
 
 ia = Cinemagoer()
 movies = []
+count_movies = 1
 
 with open("./data/movie_dataset.json", "w", encoding="utf8") as dataset:
 
+    print("[*] Getting top 250 movies from IMDb.com")
     top250 = ia.get_top250_movies()
+    print("[+] Done!")
 
     for m in top250:
 
+        print(f"[o.o] Scraping movie {count_movies}/250")
+        count_movies += 1
+
+        print(f"[*] Getting movie informations about {m['title']}")
         movie = ia.get_movie(get_id(m["title"]))
         ia.update(movie, ['reviews'])
+        print("[+] Done!")
 
         if 'reviews' in movie.current_info:
 

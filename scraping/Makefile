@@ -5,7 +5,7 @@ install:
 	poetry install
 	poetry run python download_model.py
 	clear
-	@echo "[+] Done! Usage: make scrape
+	@echo "[+] Done! Usage: make scrape"
 
 scrape:
 	poetry run python scraper.py

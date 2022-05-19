@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 router.get('/', (req, res) => {
     mongoose.connection.db.collection('films').find().toArray()
     .then(results => {
-        res.render('homepage', {test: results})
+        res.render('homepage', {content: results})
     })
 })
 

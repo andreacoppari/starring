@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e7605107e267c25db1d680c386be7aa84ec3d075c6e95cfb4315062e7cad75fa
-size 160
+{
+    "extends":[
+        "eslint:recommended",
+        "prettier"
+    ],
+    "env":{
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
+}

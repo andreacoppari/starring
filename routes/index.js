@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
-<<<<<<< HEAD
 const { ensureAuth, ensureGuest } = require('../middleware/auth')
-=======
 const mongoose = require('mongoose');
->>>>>>> main
+
 
 // @desc    Login/Landing page
 // @route   GET /

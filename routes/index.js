@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 // @route   GET /
 router.get('/', (req, res) => {
     Promise.all([
-        mongoose.connection.db.collection('films').find().limit(10).sort({'releaseDate': 1}).toArray(),
-        mongoose.connection.db.collection('films').find().limit(10).sort({'releaseDate': -1}).toArray()
+        mongoose.connection.db.collection('movies').find().limit(10).sort({'Staeeing rating': -1}).toArray(),
+        mongoose.connection.db.collection('movies').find().limit(10).sort({'year': -1}).toArray()
     ])
     .then(([film_recommended, film_new]) => {
         res.render('homepage', {content_rec: film_recommended, content_new: film_new})
@@ -32,7 +32,7 @@ router.get('/signup', (req, res) => {
 // @route   GET /film
 router.get('/film', (req, res) => {
     console.log("log: "+req.query.search)
-    mongoose.connection.db.collection('films').find({"title": new RegExp('.*' + req.query.search + '.*')}).toArray()
+    mongoose.connection.db.collection('films').find({"movies": new RegExp('.*' + req.query.search + '.*')}).toArray()
     .then(results => {
         console.log(results)
     })

@@ -351,3 +351,5 @@ MigrationBackup/
 
 # Sentiment analysis model
 ./scraping/model/
+./scraping/.venv/
+./scraping/__pycache__/

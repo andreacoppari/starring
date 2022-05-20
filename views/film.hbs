@@ -1,0 +1,39 @@
+<div class="main_content">
+    <div class="content_header">
+        {{#each film}}
+        <h1>{{this.title}}</h1>
+        <p><span class="rating_span">Add review</span></p>
+    </div>
+    <div class="content_main">
+        <div class="left_main">
+            <img src="../img/{{this.id}}.jpg" width="100%">
+        </div>
+        <div class="right_main">
+            <div class="info">
+                <p><b>Duration</b>: 2h 56m</p>
+                <p><b>Release year</b>: 2022</p>
+                <p><b>Actors</b>: Robert pattinson, Zoë Kravitz, Bill Finger</p>
+                <p><b>Director</b>: Matt Reeves</p>
+            </div>
+            <div class="info_2">
+                <p><span class="watchlist_span">+ Watchlist</span></p>
+                <p>Starring: 4.2/5</p>
+                <p>IMDb: 8.4/10</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="content_footer">
+        <div class="footer_tag">
+            <p><span class="tag_span">Action</span></p>
+            <p><span class="tag_span">Crime</span></p>
+            <p><span class="tag_span">Drama</span></p>
+        </div>
+        <div class="footer_description">
+            <p>When the Riddler, a sadistic serial killer, begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.</p>
+        </div>
+    </div>
+    <hr>
+    {{/each}}
+    <br>
+</div>

@@ -38,4 +38,20 @@ router.get('/film', (req, res) => {
     })
 })
 
+// @desc    Film
+// @route   GET /film/:id
+router.get('/film/:id', (req, res) => {
+    console.log("film_id: "+req.params.id);
+    mongoose.connection.db.collection('films').find({"id": new RegExp(req.params.id)}).toArray()
+    .then(results => {
+        console.log(results);
+
+        // Check if there is at least one film in database, if not redirect to homepage
+        if(results.length > 0)
+            res.render('film', {layout: 'film', film: results})
+        else
+            res.redirect('/')
+    })
+})
+
 module.exports = router

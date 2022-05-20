@@ -12,18 +12,7 @@
 </head>
 <body>
     <div class="page_container">
-        <nav>
-            <div class="navbar_container">
-                <a href="/">STARRING</a>
-                <div class="search-navbar_container">
-                    <form action="/film" method="get">
-                        <input type="text" placeholder="Search" name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </form>
-                    </div>
-                <a href="/login"><i class="fas fa-user"></i></a>
-            </div>
-        </nav>
+        {{> _header}}
         {{{body}}}
     </div>
 </body>

@@ -14,7 +14,7 @@
         </div>
         <div class="film_list_content">
             {{#each content_rec}}
-            <a href="/film/{{this.id}}" title="{{this.title}}"><img src="img/{{this.id}}.jpg"></a>
+            <a href="/film/{{this.title}}" title="{{this.title}}"><img src="{{this.cover}}"></a>
             {{/each}}
         </div>
     </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="film_list_content">
             {{#each content_new}}
-            <a href="/film/{{this.id}}" title="{{this.title}}"><img src="img/{{this.id}}.jpg"></a>
+            <a href="/film/{{this.title}}" title="{{this.title}}"><img src="{{this.cover}}"></a>
             {{/each}}
         </div>
     </div>

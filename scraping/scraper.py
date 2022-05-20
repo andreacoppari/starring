@@ -19,36 +19,39 @@ with open("./data/movie_dataset.json", "w", encoding="utf8") as dataset:
         count_movies += 1
 
         print(f"[*] Getting movie informations about {m['title']}")
-        movie = ia.get_movie(get_id(m["title"]))
+        movieID = get_id(m["title"])
+        if movieID == "0": print("[-] ABORTED! Movie not found!");continue
+        movie = ia.get_movie(movieID)
         ia.update(movie, ['reviews'])
         print("[+] Done!")
 
-        if 'reviews' in movie.keys():
+        try:
+            if 'reviews' in movie.keys():
 
-            rating = movie["rating"]
-            reviews = movie["reviews"]
-            cast = movie["cast"]
-            genres = movie["genres"]
-            title = movie["title"]
-            year = movie["year"]
-            plot = movie["plot"]
-            cover = movie["cover url"]
+                rating = movie["rating"]
+                reviews = movie["reviews"]
+                cast = movie["cast"]
+                genres = movie["genres"]
+                title = movie["title"]
+                year = movie["year"]
+                plot = movie["plot"]
+                cover = movie["cover url"]
 
-            starring = get_starring_rating(reviews)
+                starring = get_starring_rating(reviews)
 
-            movies.append({
-                "title": title,
-                "year": year,
-                "rating": rating,
-                "Starring rating": starring,
-                "genres": genres,
-                "cast": cast,
-                "plot": plot,
-                "reviews": reviews,
-                "cover": cover
-            })
-        
-        else: print("[-] ABORTED! No reviews found!");continue           
-
+                movies.append({
+                    "title": title,
+                    "year": year,
+                    "rating": rating,
+                    "Starring rating": starring,
+                    "genres": genres,
+                    "cast": [actor["name"] for actor in cast],
+                    "plot": plot,
+                    "reviews": [review['content'] for review in reviews],
+                    "cover": cover
+                })
+            
+            else: print("[-] ABORTED! No reviews found!");continue
+        except: print("[-] ABORTED! No reviews found!");continue
         print(f"\n\nThe Starring rating of {title} is {starring}\n\n")
     json.dump(movies, dataset, indent=4)

@@ -296,10 +296,40 @@ input[type=submit]:hover{
         width: 250px;
   }
 }
-
-@media only screen and (max-width: 670px) {
-    .navbar_container{
-        padding: 0;
+@media only screen and (max-width: 700px) {
+    .header_list{
+        width: 60%;
+        height: 200px;
+        background-size: cover;
+  }
+  .change_film{
+      margin-top: auto;
   }
 }
-    
+@media only screen and (max-width: 670px) {
+    .header_list{
+        width: 50%;
+        height: 200px;
+        background-image: cover;
+    }
+    .navbar_container{
+        padding: 0;
+    }
+    .navbar_container a{
+        font-size: 20px;
+        padding: 0;
+    }
+    .navbar_container input[type=text]{
+        width: 150px;
+        padding: 4px;
+    }
+    .navbar_container .search-navbar_container button{
+        padding: 4px 8px;
+        margin: 12px 16px 0 0;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .navbar_container input[type=text]{
+        width: 100px;
+    }
+}   

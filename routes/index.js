@@ -7,9 +7,12 @@ const mongoose = require('mongoose');
 // @desc    Login/Landing page
 // @route   GET /
 router.get('/', (req, res) => {
-    mongoose.connection.db.collection('films').find().toArray()
-    .then(results => {
-        res.render('homepage', {content: results})
+    Promise.all([
+        mongoose.connection.db.collection('movies').find().limit(10).sort({'Starring rating': -1}).toArray(),
+        mongoose.connection.db.collection('movies').find().limit(10).sort({'year': -1}).toArray()
+    ])
+    .then(([film_recommended, film_new]) => {
+        res.render('homepage', {content_rec: film_recommended, content_new: film_new})
     })
 })
 
@@ -30,11 +33,12 @@ router.get('/signup', (req, res) => {
 
 // @desc    Film
 // @route   GET /film
-router.get('/film', (req, res) => {
+router.get('/search', (req, res) => {
     console.log("log: "+req.query.search)
-    mongoose.connection.db.collection('films').find({"title": new RegExp('.*' + req.query.search + '.*')}).toArray()
+    mongoose.connection.db.collection('movies').find({"title": new RegExp('.*' + req.query.search + '.*')}).toArray()
     .then(results => {
-        console.log(results)
+        console.log("res: "+results)
+        res.render('search', {content: results})
     })
 })
 

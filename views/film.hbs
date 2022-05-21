@@ -6,31 +6,30 @@
     </div>
     <div class="content_main">
         <div class="left_main">
-            <img src="../img/{{this.id}}.jpg" width="100%">
+            <img src="{{this.cover}}" width="80%">
         </div>
         <div class="right_main">
             <div class="info">
-                <p><b>Duration</b>: 2h 56m</p>
-                <p><b>Release year</b>: 2022</p>
-                <p><b>Actors</b>: Robert pattinson, Zoë Kravitz, Bill Finger</p>
-                <p><b>Director</b>: Matt Reeves</p>
+                <p><b>Release year</b>: {{this.year}}</p>
+                
+                <p><b>Cast</b>: {{#each cast}}{{this}}, {{/each}}</p>
             </div>
             <div class="info_2">
                 <p><span class="watchlist_span">+ Watchlist</span></p>
-                <p>Starring: 4.2/5</p>
-                <p>IMDb: 8.4/10</p>
+                <p>Starring: {{"Starring rating"}}/10</p>
+                <p>IMDb: {{this.rating}}/10</p>
             </div>
             
         </div>
     </div>
     <div class="content_footer">
         <div class="footer_tag">
-            <p><span class="tag_span">Action</span></p>
-            <p><span class="tag_span">Crime</span></p>
-            <p><span class="tag_span">Drama</span></p>
+            {{#each genres}}
+            <p><span class="tag_span">{{this}}</span></p>
+            {{/each}}
         </div>
         <div class="footer_description">
-            <p>When the Riddler, a sadistic serial killer, begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.</p>
+            <p>{{this.plot}}</p>
         </div>
     </div>
     <hr>

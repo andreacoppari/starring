@@ -99,7 +99,7 @@ p {
 }
 .content_header h1{
     padding: 10px;
-    font-size: 50px;
+    font-size: 42px;
 }
 .content_header p{
     margin-left: auto!important;
@@ -119,13 +119,14 @@ p {
     padding: 10px 20px;
 }
 .left_main{
-    width: 70%;
+    width: 40%;
+    text-align: center;
 }
 .left_main img{
     box-shadow: 0 0 12px 0 rgb(0 0 0 / 40%);
 }
 .right_main{
-    width: 30%;
+    width: 60%;
     margin: 20px;
 }
 .right_main p{

@@ -62,4 +62,9 @@ Handlebars.registerHelper('limit', function(arr, limit) {
     return arr.slice(0, limit);
 });
 
+Handlebars.registerHelper('commentToTitle', function(string) {
+    if (string.length > 50){ return string.slice(0, 40) + "...";}
+    return string;
+});
+
 module.exports = router

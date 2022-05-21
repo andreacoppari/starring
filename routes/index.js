@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { ensureAuth, ensureGuest } = require('../middleware/auth')
 const mongoose = require('mongoose');
+const Handlebars = require('handlebars')
 
 
 // @desc    Login/Landing page
@@ -55,5 +56,10 @@ router.get('/film/:id', (req, res) => {
             res.redirect('/')
     })
 })
+
+Handlebars.registerHelper('limit', function(arr, limit) {
+    if (!Array.isArray(arr)){ return [];}
+    return arr.slice(0, limit);
+});
 
 module.exports = router

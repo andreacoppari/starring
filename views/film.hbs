@@ -33,6 +33,24 @@
         </div>
     </div>
     <hr>
+    <div class="comment_container">
+        <div class="comment_container_title">
+            <h2>User reviews</h2>
+            {{#each reviews}}
+            <div class="comment">
+                <div class="comment_title">
+                    <p><b>{{commentToTitle this}}</b></p>
+                </div>
+                <div class="comment_user">
+                    <p>Tizzio_{{@index}}</p>
+                </div>
+                <p>{{this}}</p>
+            </div>
+            {{else}}
+            <p>no comments</p>
+            {{/each}}
+        </div>
+    </div>
     {{/each}}
     <br>
 </div>

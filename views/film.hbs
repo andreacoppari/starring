@@ -12,7 +12,7 @@
             <div class="info">
                 <p><b>Release year</b>: {{this.year}}</p>
                 
-                <p><b>Cast</b>: {{#each cast}}{{this}}, {{/each}}</p>
+                <p><b>Cast</b>: {{#each (limit cast 5)}}{{this}}, {{/each}}</p>
             </div>
             <div class="info_2">
                 <p><span class="watchlist_span">+ Watchlist</span></p>

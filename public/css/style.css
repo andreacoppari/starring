@@ -58,6 +58,7 @@ p {
     font-size: 17px;
     border: none;
     width: 540px;
+    -webkit-appearance: none;
 }
 
 .navbar_container .search-navbar_container button {
@@ -92,10 +93,11 @@ p {
 }
 
 .content_header{
-    margin-left: 10px;
-    margin-right: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 .content_header h1{
     padding: 10px;
@@ -104,6 +106,8 @@ p {
 .content_header p{
     margin-left: auto!important;
     font-size: 20px;
+    min-width: 120px;
+    text-align: center;
 }
 .rating_span{
     padding: 8px;
@@ -149,8 +153,12 @@ p {
 .footer_tag{
     display: flex;
     padding: 10px 20px;
-    justify-content: space-between;
-    width: 200px;
+    justify-content: start;
+    width: 90%;
+    flex-wrap: wrap;
+}
+.footer_tag p{
+    margin-right: 5px!important;
 }
 .tag_span{
     padding: 4px;
@@ -292,7 +300,7 @@ input[type=submit]:hover{
     cursor: pointer;
 }
 .content_search{
-    width: 600px;
+    width: 70%;
     margin: 0 auto 0 auto;
     text-decoration: none;
 }
@@ -310,21 +318,71 @@ input[type=submit]:hover{
 .content_search ul li a:hover{
     text-decoration: underline;
 }
-
+@media only screen and (max-width: 1060px) {
+    .main_content{
+        width: 80%;
+    }
+}
 @media only screen and (max-width: 1000px) {
     .navbar_container input[type=text]{
         width: 250px;
   }
+  .content_header h1{
+      font-size: 30px;
+  }
+}
+@media only screen and (max-width: 800px) {
+    .content_main{
+        flex-direction: column;
+    }
+    .left_main, .right_main{
+        width: 100%;
+    }
+    .left_main img{
+        width: 20%!important;
+    }
+    .right_main p, .footer_description p, .footer_tag p{
+        font-size: 16px;
+    }
+    .content_header{
+        margin: 0;
+    }
+    .content_header p{
+        font-size: 16px;
+    }
+    .rating_span{
+        padding: 4px;
+    }
+    .right_main{
+        margin: 0;
+    }
+    .tag_span{
+        padding: 2px;
+    }
 }
 @media only screen and (max-width: 700px) {
     .header_list{
         width: 60%;
         height: 200px;
         background-size: cover;
-  }
-  .change_film{
-      margin-top: auto;
-  }
+    }
+    .change_film{
+        margin-top: auto;
+    }
+    .navbar_container input[type=text]{
+        width: 150px;
+        padding: 4px;
+    }
+    .navbar_container .search-navbar_container button{
+        padding: 4px 8px;
+        margin: 12px 16px 0 0;
+    }
+    .content_search ul li a{
+        font-size: 16px;
+    }
+    .content_search h1{
+        font-size: 26px;
+    }
 }
 @media only screen and (max-width: 670px) {
     .header_list{
@@ -339,17 +397,35 @@ input[type=submit]:hover{
         font-size: 20px;
         padding: 0;
     }
-    .navbar_container input[type=text]{
-        width: 150px;
-        padding: 4px;
-    }
-    .navbar_container .search-navbar_container button{
-        padding: 4px 8px;
-        margin: 12px 16px 0 0;
-    }
 }
 @media only screen and (max-width: 400px) {
     .navbar_container input[type=text]{
         width: 100px;
     }
+    .left_main img{
+        width: 50%!important;
+    }
+    .right_main p, .footer_description p, .footer_tag p{
+        font-size: 14px;
+    }
 }   
+@media only screen and (max-width: 282px) {
+    .navbar_container input[type=text]{
+        width: 80px;
+    }
+    .search-navbar_container i{
+        font-size: 12px;
+    }
+    .navbar_container .search-navbar_container button{
+        padding: 4px 4px;
+        margin: 12px 10px 0 0;
+    }
+    .navbar_container{
+        justify-content: start;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .navbar_container a{
+        font-size: 16px;
+    }
+} 

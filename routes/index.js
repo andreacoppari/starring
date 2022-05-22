@@ -70,12 +70,12 @@ const handleErrors = (err) => {
     let errors = {username: '', email: '', password: ''};
 
     //duplicate error code
-     if (err.code == 11000){
+     if (err.code === 11000){
          errors.email = 'that email is already registered';
          return errors;
      }
 
-     if(err.message=='different passwords'){
+     if(err.message === 'different passwords'){
         errors.password = 'the passwords must be the same';
         return errors;
      }
@@ -94,11 +94,11 @@ const createToken = (id) => {
     });
 }
 
-router.post('/signup', async (req, res) => {
+router.post('/api/signup', async (req, res) => {
     const { username, email, password, passwordRepeat } = req.body;
     try{
         //different passwords
-        if (password != passwordRepeat){
+        if (password !== passwordRepeat){
             throw new SyntaxError('different passwords');     
         }
         const user = await User.create({ username, email, password });
@@ -112,8 +112,6 @@ router.post('/signup', async (req, res) => {
         res.status(400).json({errors});
     }
 })
-
-
 
 
 module.exports = router

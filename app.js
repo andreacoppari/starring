@@ -10,7 +10,7 @@ const MongoStore = require('connect-mongo')(session)
 const connectDB = require('./config/db')
 const { send } = require('process')
 const cookieParser = require('cookie-parser');
-
+const bodyParser = require('body-parser');
 
 // load config
 dotenv.config({ path: './config/config.env' })
@@ -21,6 +21,10 @@ require('./config/passport')(passport)
 connectDB()
 
 const app = express()
+
+// body-parser for signup
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 // logging
 if (process.env.NODE_ENV === "development") {

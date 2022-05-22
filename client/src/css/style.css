@@ -1,0 +1,431 @@
+html{
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    margin: 0;
+}
+body{
+    margin: 0;
+}
+p {
+    margin: 10px 0 !important;
+}
+
+.login-container {
+    width: 400px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.page_container{
+    background-color: rgb(39, 39, 39);
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    color: white;
+}
+.nav{
+    width: 100%;
+}
+.navbar_container{
+    background-color: rgb(32, 32, 32);
+    display: flex;
+    padding-left: 60px;
+    padding-right: 60px;
+    height: 60px;
+    line-height: 50px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
+}
+.navbar_container a{
+    padding: 14px 20px;
+    font-size: 26px;
+    text-decoration: none;
+    color: inherit;
+}
+.navbar_container a i:hover{
+    cursor: pointer;
+    color: #ccc;;
+}
+.coontainer .search-navbar_container{
+    float: right;
+}
+  
+.navbar_container input[type=text]{
+    padding: 6px;
+    margin-top: 8px;
+    margin-left: 16px;
+    font-size: 17px;
+    border: none;
+    width: 540px;
+    -webkit-appearance: none;
+}
+
+.navbar_container .search-navbar_container button {
+    float: right;
+    padding: 6px 10px;
+    margin: 10px 16px 0 0;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+.navbar_container .search-navbar_container button:hover {
+    background: #ccc;
+}
+.search-navbar_container i{
+    color: black;
+    
+}
+
+.main_content{
+    width: 1050px;
+    height: auto;
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(71, 71, 71);
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 40%);
+}
+.main_content hr{
+    width: 95%;
+    margin: 10px auto;
+}
+
+.content_header{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.content_header h1{
+    padding: 10px;
+    font-size: 42px;
+}
+.content_header p{
+    margin-left: auto!important;
+    font-size: 20px;
+    min-width: 120px;
+    text-align: center;
+}
+.rating_span{
+    padding: 8px;
+    background-color: rgb(39, 39, 39);
+    border-radius: 6px;
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 30%);
+}
+.rating_span:hover{
+    cursor: pointer;
+}
+.content_main{
+    display: flex;
+    padding: 10px 20px;
+}
+.left_main{
+    width: 40%;
+    text-align: center;
+}
+.left_main img{
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 40%);
+}
+.right_main{
+    width: 60%;
+    margin: 20px;
+}
+.right_main p{
+    font-size: 20px;
+    line-height: 1.6;
+}
+.info_2{
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+}
+.watchlist_span{
+    padding: 4px;
+    border: 3px solid rgb(27, 27, 27);
+    border-radius: 10px;
+}
+.watchlist_span:hover{
+    cursor: pointer;
+}
+.footer_tag{
+    display: flex;
+    padding: 10px 20px;
+    justify-content: start;
+    width: 90%;
+    flex-wrap: wrap;
+}
+.footer_tag p{
+    margin-right: 5px!important;
+}
+.tag_span{
+    padding: 4px;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+}
+.footer_description{
+    padding: 10px 20px;
+    font-size: 18px;
+}
+.comment_container{
+    padding: 10px 20px;
+}
+
+.comment_container_title{
+    padding: 5px;
+    margin-bottom: 20px;
+}
+.comment{
+    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 50%);
+}
+.comment p, .comment h4{
+    color: black;
+}
+.comment_title{
+    font-size: 18px;
+}
+.comment_user{
+    margin-bottom: 10px;
+}
+.comment_user p{
+    font-size: 12px;
+}
+
+/* ----------------------  */
+.header_list{
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto;
+    height: 360px;
+    width: 700px;
+    text-align: center;
+    background-image: url("https://th.bing.com/th/id/OIP.OnuvApigwd1DbvT_Atg4BAHaEK?pid=ImgDet&rs=1");
+    background-size: 100%;
+    box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
+}
+.change_film{
+    margin-top: 130px;
+    height: 80px;
+    width: 60px;
+    background-color: rgba(68, 68, 68, 0.603);
+    line-height: 80px;
+    font-size: 50px;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+.change_film:hover{
+    cursor: pointer;
+}
+.change_film p{
+    margin: 0px!important;
+}
+.film_list{
+    margin: 40px auto;
+    width: 95%;
+    height: 220px;
+}
+.film_list_title{
+    height: 40px;
+}
+.film_list_title h3{
+    font-size: 30px;
+}
+.film_list_content{
+    height: 180px;
+    display: flex;
+    overflow-x: hidden;
+}
+.film_list_content a{
+    padding: 10px;
+}
+.film_list_content img{
+    height: 100%;
+    box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
+}
+.film_list_content img:hover{
+    cursor: pointer;
+}
+
+.wallpaper{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(68, 68, 68, 0.603);
+}
+.review_container{
+    background-color: rgb(39, 39, 39);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 250px;
+    width: 600px;
+    height: 400px;
+    z-index: 2;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
+}
+.review_text textarea{
+    height: 200px;
+    resize: vertical;
+}
+
+.review_container input[type=text], .review_container textarea{
+    width: 550px;
+    padding: 10px;
+    margin: 15px 15px 15px 15px;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+input[type=submit]{
+    width: 250px;
+    padding: 10px;
+    margin: 15px 15px 15px 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f1f1f1;
+    color: rgb(32, 32, 32);
+    border: none;
+}
+
+input[type=submit]:hover{
+    cursor: pointer;
+}
+.content_search{
+    width: 70%;
+    margin: 0 auto 0 auto;
+    text-decoration: none;
+}
+.content_search h1{
+    text-align: center;
+}
+.content_search ul li{
+    margin-bottom: 10px;
+}
+.content_search ul li a{
+    color: inherit;
+    text-decoration: none;
+    font-size: 24px;
+}
+.content_search ul li a:hover{
+    text-decoration: underline;
+}
+@media only screen and (max-width: 1060px) {
+    .main_content{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .navbar_container input[type=text]{
+        width: 250px;
+  }
+  .content_header h1{
+      font-size: 30px;
+  }
+}
+@media only screen and (max-width: 800px) {
+    .content_main{
+        flex-direction: column;
+    }
+    .left_main, .right_main{
+        width: 100%;
+    }
+    .left_main img{
+        width: 20%!important;
+    }
+    .right_main p, .footer_description p, .footer_tag p{
+        font-size: 16px;
+    }
+    .content_header{
+        margin: 0;
+    }
+    .content_header p{
+        font-size: 16px;
+    }
+    .rating_span{
+        padding: 4px;
+    }
+    .right_main{
+        margin: 0;
+    }
+    .tag_span{
+        padding: 2px;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .header_list{
+        width: 60%;
+        height: 200px;
+        background-size: cover;
+    }
+    .change_film{
+        margin-top: auto;
+    }
+    .navbar_container input[type=text]{
+        width: 150px;
+        padding: 4px;
+    }
+    .navbar_container .search-navbar_container button{
+        padding: 4px 8px;
+        margin: 12px 16px 0 0;
+    }
+    .content_search ul li a{
+        font-size: 16px;
+    }
+    .content_search h1{
+        font-size: 26px;
+    }
+}
+@media only screen and (max-width: 670px) {
+    .header_list{
+        width: 50%;
+        height: 200px;
+        background-image: cover;
+    }
+    .navbar_container{
+        padding: 0;
+    }
+    .navbar_container a{
+        font-size: 20px;
+        padding: 0;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .navbar_container input[type=text]{
+        width: 100px;
+    }
+    .left_main img{
+        width: 50%!important;
+    }
+    .right_main p, .footer_description p, .footer_tag p{
+        font-size: 14px;
+    }
+}   
+@media only screen and (max-width: 282px) {
+    .navbar_container input[type=text]{
+        width: 80px;
+    }
+    .search-navbar_container i{
+        font-size: 12px;
+    }
+    .navbar_container .search-navbar_container button{
+        padding: 4px 4px;
+        margin: 12px 10px 0 0;
+    }
+    .navbar_container{
+        justify-content: start;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .navbar_container a{
+        font-size: 16px;
+    }
+}

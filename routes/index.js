@@ -43,6 +43,26 @@ router.get('/search', (req, res) => {
     })
 })
 
+// @desc    Movies
+// @route   GET /movies/:id
+router.get('/movies/:id', (req, res) => {
+    mongoose.connection.db.collection('movies').find({"title": new RegExp(req.params.id)}).limit(1).toArray()
+    .then(results => {
+        res.status(200).json({
+            self: '/movies/' + results[0].title,
+            title: results[0].title,
+            year: results[0].year,
+            cast: results[0].cast,
+            starring_rating: results[0]['Starring rating'],
+            imdb_rating: results[0].rating,
+            genres: results[0].genres,
+            plot: results[0].plot,
+            cover: results[0].cover,
+            reviews: results[0].reviews
+        });
+    })
+})
+
 // @desc    Film
 // @route   GET /film/:id
 router.get('/film/:id', (req, res) => {

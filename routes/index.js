@@ -34,32 +34,66 @@ router.get('/signup', (req, res) => {
 
 // @desc    Film
 // @route   GET /film
+// Render the search page
 router.get('/search', (req, res) => {
-    console.log("log: "+req.query.search)
-    mongoose.connection.db.collection('movies').find({"title": new RegExp('.*' + req.query.search + '.*')}).toArray()
+    res.render('search', {layout: 'search'})
+})
+
+// @desc    Load
+// @route   GET /load
+// Returns all films contained in database
+router.get('/load', (req, res) => {
+    mongoose.connection.db.collection('movies').distinct('title')
     .then(results => {
-        console.log("res: "+results)
-        res.render('search', {content: results})
+        res.status(200).json({
+            self: '/load',
+            film: results
+        });
+    })
+})
+// @desc    Load
+// @route   GET /load/:id
+// Return film with similar title as the value contained in :id
+router.get('/load/:id', (req, res) => {
+    mongoose.connection.db.collection('movies').distinct('title', { title: new RegExp(req.params.id)})
+    .then(results => {
+        res.status(200).json({
+            self: '/load/'+req.params.id,
+            film: results
+        });
     })
 })
 
+// @desc    Movies
+// @route   GET /movies
+router.get('/movies', (req, res) => {
+    res.status(400).send()
+    console.log('Non è stato selezionato un film')
+})
 // @desc    Movies
 // @route   GET /movies/:id
 router.get('/movies/:id', (req, res) => {
     mongoose.connection.db.collection('movies').find({"title": new RegExp(req.params.id)}).limit(1).toArray()
     .then(results => {
-        res.status(200).json({
-            self: '/movies/' + results[0].title,
-            title: results[0].title,
-            year: results[0].year,
-            cast: results[0].cast,
-            starring_rating: results[0]['Starring rating'],
-            imdb_rating: results[0].rating,
-            genres: results[0].genres,
-            plot: results[0].plot,
-            cover: results[0].cover,
-            reviews: results[0].reviews
-        });
+        if(results.length > 0) {
+            res.status(200).json({
+                self: '/movies/' + results[0].title,
+                title: results[0].title,
+                year: results[0].year,
+                cast: results[0].cast,
+                starring_rating: results[0]['Starring rating'],
+                imdb_rating: results[0].rating,
+                genres: results[0].genres,
+                plot: results[0].plot,
+                cover: results[0].cover,
+                reviews: results[0].reviews
+            });
+        } else {
+            res.status(404).json({
+                self: '/movies/'+req.params.id
+            })
+            console.log('Film inesistente')
+        }
     })
 })
 

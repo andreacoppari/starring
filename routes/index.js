@@ -4,6 +4,8 @@ const { ensureAuth, ensureGuest } = require('../middleware/auth')
 const mongoose = require('mongoose');
 const Handlebars = require('handlebars');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const { cookie } = require('express-validator');
 
 
 // @desc    Login/Landing page
@@ -65,7 +67,7 @@ Handlebars.registerHelper('limit', function(arr, limit) {
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
-    let errors = {displayName: '', email: '', password: ''};
+    let errors = {username: '', email: '', password: ''};
 
     //duplicate error code
      if (err.code == 11000){
@@ -73,6 +75,10 @@ const handleErrors = (err) => {
          return errors;
      }
 
+     if(err.message=='different passwords'){
+        errors.password = 'the passwords must be the same';
+        return errors;
+     }
     //validation errors
     if(err.message.includes('User validation failed')){
         Object.values(err.errors).forEach(({properties}) => {
@@ -82,18 +88,29 @@ const handleErrors = (err) => {
     return errors;
 }
 
+const maxAge = 24*60*60;
+const createToken = (id) => {
+    return jwt.sign({id}, 'great_secret', {expiresIn:maxAge
+    });
+}
+
 router.post('/signup', async (req, res) => {
-    const { displayName, email, password, password2 } = req.body;
+    const { username, email, password, passwordRepeat } = req.body;
     try{
-        const user = await User.create({ displayName, email, password });
+        //different passwords
+        if (password != passwordRepeat){
+            throw new SyntaxError('different passwords');     
+        }
+        const user = await User.create({ username, email, password });
+        //const token = createToken(user._id);
+        //res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge*1000});
+        //res.status(201).json({user: isSecureContext._id});
         res.status(201).json(user);
     }
     catch(err){
         const errors = handleErrors(err);
         res.status(400).json({errors});
     }
-
-    
 })
 
 

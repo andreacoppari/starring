@@ -53,18 +53,6 @@ app.use(cookieParser());
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
 
-//cookie
-app.get('/set_cookie', (req,res) => {
-    res.cookie('newUser', true, {httpOnly: true/*, secure:true*/});
-    send('cookie taken');
-})
-
-/*app.get('/read_cookies', (req,res) => {
-    const cookies = req.cookies;
-    console.log(cookies);
-    res.json(cookies);
-})*/
-
 const PORT = process.env.PORT || 8000
 
 app.listen(

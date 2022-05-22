@@ -66,15 +66,7 @@ router.get('/movies/:id', (req, res) => {
 // @desc    Film
 // @route   GET /film/:id
 router.get('/film/:id', (req, res) => {
-    // Search in database for film with title = id
-    mongoose.connection.db.collection('movies').find({"title": new RegExp(req.params.id)}).limit(1).toArray()
-    .then(results => {
-        // Check if there is at least one film in database, if not redirect to homepage
-        if(results.length > 0)
-            res.render('film', {layout: 'film', film: results})
-        else
-            res.redirect('/')
-    })
+    res.render('film', {layout: 'film'})
 })
 
 Handlebars.registerHelper('limit', function(arr, limit) {

@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/User')
+const Movie = require('./models/Movie')
 const jwt = require('jsonwebtoken')
 
 app.use(cors())
@@ -41,6 +42,16 @@ app.post('/api/login', async (req, res) => {
         return res.json({ status: 'error', user: false })
     }
     
+})
+
+app.get('/api/movies', async (req, res) => {
+    const movies = await Movie.find().toArray()
+
+    if (movies.length > 0) {
+        return res.json({ status: 'ok', movies: movies })
+    } else {
+        return res.json({ status: 'error', error: 'movies not found' })
+    }
 })
 
 app.get('/api/watchlist', async (req, res) => {

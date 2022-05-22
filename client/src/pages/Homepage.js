@@ -7,6 +7,7 @@ const Homepage = () => {
     const history = useHistory()
     const [ watchlist, setWatchlist ] = useState('')
     const [ movieToAdd, setMovieToAdd ] = useState('')
+    const [ recommended, setRedommended ] = useState([])
 
     async function populateWatchlist() {
         const req = await fetch('http://localhost:1234/api/watchlist', {

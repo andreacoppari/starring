@@ -11,12 +11,12 @@ const User = new mongoose.Schema({
         type: String,
         required: [true, 'An email is required'],
         unique: true,
-        validate:[isEmail, 'this email is invalid']
+        validate:[isEmail, 'This email is invalid']
     },
     password: {
         type: String,
         required: [true, 'A password is required'],
-        minlength: [8, 'the password must be at least 8 characters long']
+        minlength: [8, 'The password must be at least 8 characters long']
     },
     createdAt: {
         type: Date,

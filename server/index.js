@@ -6,11 +6,12 @@ const mongoose = require('mongoose')
 const User = require('./models/User')
 const Movie = require('./models/Movie')
 const jwt = require('jsonwebtoken')
+const { query } = require('express')
 
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/react')
+mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
 
 app.post('/api/register', async (req, res) => {
     try {
@@ -44,14 +45,40 @@ app.post('/api/login', async (req, res) => {
     
 })
 
-app.get('/api/movies', async (req, res) => {
-    const movies = await Movie.find().toArray()
+app.get('/api/recommended', async (req, res) => {
+    const movies = await Movie.find({}, {title:1, cover:1}).limit(15).sort({'Starring rating': -1})
 
     if (movies.length > 0) {
         return res.json({ status: 'ok', movies: movies })
     } else {
         return res.json({ status: 'error', error: 'movies not found' })
     }
+    
+})
+
+app.get('/api/newfilm', async (req, res) => {
+    const movies = await Movie.find({}, {title:1, cover:1}).limit(15).sort({'year': -1})
+
+    if (movies.length > 0) {
+        return res.json({ status: 'ok', movies: movies })
+    } else {
+        return res.json({ status: 'error', error: 'movies not found' })
+    }
+    
+})
+
+app.get('/api/search', async (req, res) => {
+    if(req.query.search){
+        console.log("cerca")
+    } else {
+        console.log("Non cerca")
+    }
+})
+
+app.get('/api/movies/:id', async (req, res) => {
+    const movie = await Movie.findOne({'title': new RegExp(req.params.id)})
+    
+    return res.json({ status: 'ok', movie: movie })
 })
 
 app.get('/api/watchlist', async (req, res) => {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
+import "../css/signform.css"
 
 function App() {
   const history = useHistory()
@@ -35,7 +36,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='page_container'>
       <Navbar />
       <div className="sign_container">
         <form onSubmit={registerUser}>
@@ -66,7 +67,8 @@ function App() {
               type="password"
               placeholder="password"
             />
-            <a href="/login" title="Accedi con il tuo account">Hai già un account?</a>
+            <label> <input type="checkbox" name="remember" style={{marginBottom: '15px'}}/> Ricordami</label>
+            <a href="/login" style={{float: 'right', color: 'inherit'}} title="Accedi con il tuo account">Hai già un account?</a>
             <div className="clearfix">
                   <button type="submit" value="Register">Registrati</button>
             </div>

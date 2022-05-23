@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Navbar } from '../components/Navbar'
-import '../css/style.css'
-import '../css/signform.css'
+import "../css/signform.css"
 
 function App() {
   const [ email, setEmail ] = useState('')
@@ -33,7 +32,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="page_container">
       <Navbar />
       <div className="sign_container">
         <form onSubmit={loginUser}>
@@ -57,7 +56,8 @@ function App() {
               type="password"
               placeholder="password"
             />
-            <a href="/register" title="Crea un account">Non hai un account?</a><br/>
+            <label> <input type="checkbox" name="remember" style={{marginBottom: '15px'}}/> Ricordami</label>
+            <a href="/register" style={{float: 'right', color: 'inherit'}} title="Crea un account">Non hai un account?</a>
             <div className="clearfix">
                   <button type="submit" value="Login">Accedi</button>
             </div>

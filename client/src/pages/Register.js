@@ -9,6 +9,7 @@ function App() {
   const [ username, setUsername ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
+  const [ passwordR, setPasswordR ] = useState('')
 
   async function registerUser(event) {
     event.preventDefault()
@@ -22,6 +23,7 @@ function App() {
         username,
         email,
         password,
+        passwordR,
       }),
     })
   
@@ -31,7 +33,7 @@ function App() {
       history.push('/login')
     }
     else {
-      alert("Email already in use")
+      alert(data.message)
     }
   }
 
@@ -64,6 +66,13 @@ function App() {
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="password"
+            />
+            <label htmlFor="passwordR"><b>Repeat Password</b></label>
+            <input
+              value={passwordR}
+              onChange={(e) => setPasswordR(e.target.value)}
               type="password"
               placeholder="password"
             />

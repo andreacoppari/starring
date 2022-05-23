@@ -13,8 +13,35 @@ app.use(express.json())
 
 mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
 
+const handleErrors = (err) => {
+    console.log(err.message, err.code);
+    let errors = {username: '', email: '', password: ''};
+    errors.message='unknown'
+
+    //duplicate error code
+     if (err.code === 11000){
+         errors.message = 'that email is already registered';
+         return errors;
+     }
+
+     if(err.message === 'different passwords'){
+        errors.message = 'the passwords must be the same';
+        return errors;
+     }
+    //validation errors
+    if(err.message.includes('User validation failed')){
+        Object.values(err.errors).forEach(({properties}) => {
+            errors.message = properties.message;
+        });
+    }
+    return errors;
+}
+
 app.post('/api/register', async (req, res) => {
     try {
+        if (req.body.password !== req.body.passwordR){
+            throw new SyntaxError('different passwords');     
+        }
         const user = await User.create({
             username: req.body.username,
             email: req.body.email,
@@ -22,7 +49,8 @@ app.post('/api/register', async (req, res) => {
         })
         res.json({ status: 'ok' })
     } catch (error) {
-        res.json({ status: 'error', error: 'Duplicate email' })
+        const errors = handleErrors(error);
+        res.json({ status: 'error', message: errors.message })
     }
 })
 

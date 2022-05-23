@@ -95,11 +95,13 @@ app.get('/api/newfilm', async (req, res) => {
     
 })
 
+
 app.get('/api/search', async (req, res) => {
     if(req.query.search){
-        console.log("cerca")
+        const movie = await Movie.find({'title': new RegExp(req.query.search)})
+        return res.json({ status: 'ok', movie: movie })
     } else {
-        console.log("Non cerca")
+        return res.json({ status: 'error', error: 'movies not found' })
     }
 })
 

@@ -28,7 +28,7 @@ function Film() {
 
     useEffect(() => {
         getMovie()
-    })
+    }, [])
 
     const rrs = []
     for (let r of reviews) {
@@ -77,7 +77,7 @@ function Film() {
                     </div>
                     <div className="right_main">
                         <div className="info">
-                            <p id="film_year"><b>Release year</b>:{film.year}</p>
+                            <p id="film_year"><b>Release year</b>: {film.year}</p>
                             
                             <p id="film_cast"><b>Cast</b>: {film.cast}</p>
                         </div>

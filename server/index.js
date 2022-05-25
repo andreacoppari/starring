@@ -112,7 +112,6 @@ app.get('/api/movies/:id', async (req, res) => {
 })
 
 app.get('/api/watchlist', async (req, res) => {
-
     const token = req.headers['x-access-token']
 
     try {
@@ -120,7 +119,15 @@ app.get('/api/watchlist', async (req, res) => {
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
-        return { status: 'ok', watchlist: user.watchlist }
+        // Return from database all titles and covers of movies
+        const movies = await Movie.find({}, {title:1, cover:1})
+        var watchlist = []
+        // Find every movie which has the same title as the movies inside user.watchlist and put them inside array watchlist
+        for(let i=0; i<user.watchlist.length; i++){
+            watchlist.push(movies.find(element => element.title == user.watchlist[i]))
+        }
+        // Return watchlist
+        return res.json({ status: 'ok', watchlist: watchlist})
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

@@ -142,7 +142,16 @@ app.post('/api/watchlist', async (req, res) => {
     try {
         const decoded = jwt.verify(token, 'secret123')
         const email = decoded.email
-        const user = await User.updateOne(
+
+        var user = await User.findOne({ email: email })
+        // Check if film is already inside watchlist
+        if(user.watchlist.includes(req.body.watchlist)){
+            // TODO: Remove from watchlist
+            res.json({ status: 'error', error: 'Film already inside your watchlist' })
+            return;
+        }
+        
+        user = await User.updateOne(
             { email: email },
             { $push: { watchlist: req.body.watchlist } })
 

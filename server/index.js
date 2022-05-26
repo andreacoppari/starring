@@ -134,9 +134,7 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
-// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
-
     const token = req.headers['x-access-token']
 
     try {
@@ -146,16 +144,19 @@ app.post('/api/watchlist', async (req, res) => {
         var user = await User.findOne({ email: email })
         // Check if film is already inside watchlist
         if(user.watchlist.includes(req.body.watchlist)){
-            // TODO: Remove from watchlist
-            res.json({ status: 'error', error: 'Film already inside your watchlist' })
+            //Remove from watchlist
+            await User.updateOne(
+                {email: email},
+                {$pull: {watchlist: req.body.watchlist}})
+            res.json({ status: 'ok', watchlist: req.body.watchlist, msg: ' removed from your watchlist.' })
             return;
         }
-        
+        //Add to watchlist
         user = await User.updateOne(
             { email: email },
             { $push: { watchlist: req.body.watchlist } })
 
-        return res.json({ status: 'ok', watchlist: req.body.watchlist })
+        return res.json({ status: 'ok', watchlist: req.body.watchlist, msg: ' added to your watchlist.'})
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

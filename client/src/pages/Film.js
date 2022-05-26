@@ -57,7 +57,7 @@ function Film() {
 
         const data = await req.json()
         if (data.status === 'ok') {
-            alert(`${film.title} added to your watchlist`)
+            alert(film.title + data.msg)
         } else {
             alert(data.error)
         }

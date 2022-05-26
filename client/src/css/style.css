@@ -31,7 +31,6 @@ p {
     padding-left: 60px;
     padding-right: 60px;
     height: 60px;
-    line-height: 50px;
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -53,7 +52,7 @@ p {
   
 .navbar_container input[type=text]{
     padding: 6px;
-    margin-top: 8px;
+    margin-top: 4px;
     margin-left: 16px;
     font-size: 17px;
     border: none;
@@ -64,7 +63,7 @@ p {
 .navbar_container .search-navbar_container button {
     float: right;
     padding: 6px 10px;
-    margin: 10px 16px 0 0;
+    margin: 4px 16px 0 0;
     background: #ddd;
     font-size: 17px;
     border: none;

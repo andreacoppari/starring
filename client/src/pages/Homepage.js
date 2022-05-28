@@ -52,8 +52,6 @@ const Homepage = () => {
         const data = req.json()
         if (data.status === 'ok') {
             setWatchlist(data.watchlist)
-        } else {
-            alert(data.error)
         }
     }
 

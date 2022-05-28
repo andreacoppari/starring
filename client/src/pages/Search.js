@@ -14,8 +14,6 @@ const Search = () => {
         })
         const res = await data.json()
         if (res.status === 'ok') {
-            console.log(res)
-            console.log(res.movie)
             setFilmFound(res.movie)
         } else {
             console.log('ERROR')
@@ -29,11 +27,12 @@ const Search = () => {
     return(
         <div className="page_container">
             <Navbar/>
-            <div className="main_content">
+            <div className="content_search">
+            <h1>Film trovati: </h1>
             <ul>{
                 filmFound.length > 0 ?
             filmFound.map((key, i) => (
-                <li key={key.title}><a href={"/film/"+`${key.title}`} style={{textDecoration:"none", color:'white'}}>{key.title}</a></li>
+                <li key={key.title}><a href={"/film/"+`${key.title}`}>{key.title}</a></li>
             )): <p>No movie found!</p>
             }
             </ul>

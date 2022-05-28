@@ -20,12 +20,12 @@ const handleErrors = (err) => {
 
     //duplicate error code
      if (err.code === 11000){
-         errors.message = 'that email is already registered';
+         errors.message = 'This email is already registered';
          return errors;
      }
 
      if(err.message === 'different passwords'){
-        errors.message = 'the passwords must be the same';
+        errors.message = 'The passwords must be the same';
         return errors;
      }
     //validation errors

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import "../css/signform.css"
+import { GoogleLogin } from 'react-google-login'
+import { gapi } from 'gapi-script'
 
 function App() {
   const history = useHistory()
@@ -10,6 +12,16 @@ function App() {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ passwordR, setPasswordR ] = useState('')
+
+  const googleSuccess = async (res) => {
+    window.location.href = "/homepage"
+    alert("Login with Google successful!")
+  }
+
+  const googleFail = (res) => {
+    window.location.href = "/login"
+    alert("Login with Google failed")
+  }
 
   async function registerUser(event) {
     event.preventDefault()
@@ -45,7 +57,14 @@ function App() {
           <div className='form_content'>
             <h1>Registrati a Starring</h1>
             <div className="auth_google">
-                  <a href="/auth/google" className="btn red darken-1"> <i className="fab fa-google left"></i> Login with Google</a>
+              <GoogleLogin
+                    clientId='426974248841-ef5qifroecnne6pq55mgs88f9j6tr112.apps.googleusercontent.com'
+                    buttonText='Login with Google'
+                    onSuccess={googleSuccess}
+                    onFailure={googleFail}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={true}
+                  />
                   <p>oppure</p>
             </div>
             <label htmlFor="username"><b>Username</b></label>

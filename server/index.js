@@ -8,6 +8,8 @@ const Movie = require('./models/Movie')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 
+let secret = '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'
+
 app.use(cors())
 app.use(express.json())
 
@@ -39,6 +41,7 @@ const handleErrors = (err) => {
 
 app.post('/api/register', async (req, res) => {
     try {
+        console.log(req.body)
         if (req.body.password !== req.body.passwordR){
             throw new SyntaxError('different passwords');     
         }
@@ -56,8 +59,7 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password,
+        email: req.body.email
     })
 
     if (user) {
@@ -65,7 +67,7 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({
             username: user.username,
             email: user.email   
-        }, 'secret123')
+        }, secret)
         return res.json({ status: 'ok', user: token })
     } else {
         return res.json({ status: 'error', user: false })
@@ -116,7 +118,7 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -132,7 +134,7 @@ app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.updateOne(
             { email: email },

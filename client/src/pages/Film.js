@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import jwt from 'jsonwebtoken'
-import { useHistory } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 
 function Film() {

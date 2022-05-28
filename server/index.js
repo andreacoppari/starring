@@ -127,7 +127,6 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
-// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
 
     const token = req.headers['x-access-token']

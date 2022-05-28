@@ -1,6 +1,12 @@
 import '../css/style.css'
+import { GoogleLogout } from 'react-google-login'
+import { gapi } from 'gapi-script'
 
 export function Navbar() {
+
+const googleLogout = () => {
+    alert("Logout successful!")
+}
 
 return(
 <nav>
@@ -13,6 +19,11 @@ return(
             </form>
             </div>
         <a href="/login"><i className="fas fa-user"></i></a>
+        <GoogleLogout
+            clientId='426974248841-ef5qifroecnne6pq55mgs88f9j6tr112.apps.googleusercontent.com'
+            buttonText='Logout'
+            onLogoutSuccess={googleLogout}
+        />
     </div>
 </nav>
 )}

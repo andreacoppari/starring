@@ -61,7 +61,7 @@ function Film() {
                         <div className="info">
                             <p id="film_year"><b>Release year</b>: {film.year}</p>
                             
-                            <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).map(i => { return i+', '})}</p>
+                            <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).join(", ")}</p>
                         </div>
                         <div className="info_2">
                             <p><span onClick={updateWatchlist} className="watchlist_span">+ Watchlist</span></p>

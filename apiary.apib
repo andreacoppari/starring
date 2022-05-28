@@ -1,0 +1,206 @@
+FORMAT: 1A
+HOST: http://localhost:1234
+
+# Starring
+
+Sotto la lista di API del primo sprint.
+
+# /api/register
+## Register new user [POST]
+Create a new user
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+                "status": "error",
+                "message": "A password is required"
+            }
+            
+# /api/recommended
+## Return recommended films [GET]
+Return list of films
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+                "status": "ok",
+                "movies": [
+                    {
+                        "_id": "6287a44ed9c12de99b9357a5",
+                        "title": "Joker",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b93578b",
+                        "title": "The Lion King",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2FmM2JiM2M1XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357a1",
+                        "title": "Aliens",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BZGU2OGY5ZTYtMWNhYy00NjZiLWI0NjUtZmNhY2JhNDRmODU3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935770",
+                        "title": "The Godfather",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY150_CR2,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935776",
+                        "title": "Pulp Fiction",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY150_CR1,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935771",
+                        "title": "The Dark Knight",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935780",
+                        "title": "It's a Wonderful Life",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BZjc4NDZhZWMtNGEzYS00ZWU2LThlM2ItNTA0YzQ0OTExMTE2XkEyXkFqcGdeQXVyNjUwMzI2NzU@._V1_SY150_CR1,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935777",
+                        "title": "The Lord of the Rings: The Fellowship of the Ring",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935818",
+                        "title": "Ratatouille",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMTMzODU0NTkxMF5BMl5BanBnXkFtZTcwMjQ4MzMzMw@@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935787",
+                        "title": "Back to the Future",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357e8",
+                        "title": "V for Vendetta",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BOTI5ODc3NzExNV5BMl5BanBnXkFtZTcwNzYxNzQzMw@@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357a8",
+                        "title": "Toy Story",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b93581f",
+                        "title": "Hachi: A Dog's Tale",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BNzE4NDg5OWMtMzg3NC00ZDRjLTllMDMtZTRjNWZmNjBmMGZlXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SY150_CR2,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935810",
+                        "title": "Ford v Ferrari",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BM2UwMDVmMDItM2I2Yi00NGZmLTk4ZTUtY2JjNTQ3OGQ5ZjM2XkEyXkFqcGdeQXVyMTA1OTYzOTUx._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935786",
+                        "title": "Terminator 2: Judgment Day",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMGU2NzRmZjUtOGUxYS00ZjdjLWEwZWItY2NlM2JhNjkxNTFmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX101_CR0,0,101,150_.jpg"
+                    }
+                ]
+            }
+
+# /api/newFilm
+## Return newest films [GET]
+Return list of newest films
++ response 200 (application/json)
+
+    + Body
+            
+            {
+                "status": "ok",
+                "movies": [
+                    {
+                        "_id": "6287a44ed9c12de99b935798",
+                        "title": "Everything Everywhere All at Once",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BYTdiOTIyZTQtNmQ1OS00NjZlLWIyMTgtYzk5Y2M3ZDVmMDk1XkEyXkFqcGdeQXVyMTAzMDg4NzU0._V1_SY150_CR1,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357c1",
+                        "title": "Spider-Man: No Way Home",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357ac",
+                        "title": "Avengers: Endgame",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935810",
+                        "title": "Ford v Ferrari",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BM2UwMDVmMDItM2I2Yi00NGZmLTk4ZTUtY2JjNTQ3OGQ5ZjM2XkEyXkFqcGdeQXVyMTA1OTYzOTUx._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357bc",
+                        "title": "Come and See",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BOGM3ZDlkYjEtNzVjYi00ZGU2LWJmY2YtYjhjYWZmNDE5NDMyXkEyXkFqcGdeQXVyMjMxNTgwMDA@._V1_SY150_CR2,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357a4",
+                        "title": "Spider-Man: Into the Spider-Verse",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357a0",
+                        "title": "Avengers: Infinity War",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357d3",
+                        "title": "Green Book",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BYzIzYmJlYTYtNGNiYy00N2EwLTk4ZjItMGYyZTJiOTVkM2RlXkEyXkFqcGdeQXVyODY1NDk1NjE@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357ee",
+                        "title": "Three Billboards Outside Ebbing, Missouri",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMjI0ODcxNzM1N15BMl5BanBnXkFtZTgwMzIwMTEwNDI@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935806",
+                        "title": "Hacksaw Ridge",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMjQ1NjM3MTUxNV5BMl5BanBnXkFtZTgwMDc5MTY5OTE@._V1_SX101_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357cf",
+                        "title": "Dangal",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMTQ4MzQzMzM2Nl5BMl5BanBnXkFtZTgwMTQ1NzU3MDI@._V1_SY150_CR3,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935809",
+                        "title": "Mad Max: Fury Road",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BN2EwM2I5OWMtMGQyMi00Zjg1LWJkNTctZTdjYTA4OGUwZjMyXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b935800",
+                        "title": "The Grand Budapest Hotel",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMzM5NjUxOTEyMl5BMl5BanBnXkFtZTgwNjEyMDM0MDE@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357fb",
+                        "title": "Gone Girl",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMTk0MDQ3MzAzOV5BMl5BanBnXkFtZTgwNzU1NzE3MjE@._V1_SY150_CR0,0,101,150_.jpg"
+                    },
+                    {
+                        "_id": "6287a44ed9c12de99b9357fa",
+                        "title": "12 Years a Slave",
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMjExMTEzODkyN15BMl5BanBnXkFtZTcwNTU4NTc4OQ@@._V1_SY150_CR0,0,101,150_.jpg"
+                    }
+                ]
+            }
+
+# /api/search
+## Search for films [GET]
+Search for films using variable ?search= + the of the film searched. For example /api/search?search=Joker will return the attributes of film Joker
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+                "status": "error",
+                "error": "movies not found"
+            }

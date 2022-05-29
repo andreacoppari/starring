@@ -177,6 +177,7 @@ p {
     margin-bottom: 20px;
 }
 .comment{
+    overflow: hidden;
     margin-bottom: 20px;
     background-color: rgb(255, 255, 255);
     padding: 15px;
@@ -194,6 +195,22 @@ p {
 }
 .comment_user p{
     font-size: 12px;
+}
+.comment_ban{
+    margin-top: -16px;
+    margin-bottom: 0px;
+    width: 75px;
+    margin-left: auto;
+    text-align: center;
+    background: rgb(39, 39, 39);
+    box-shadow: 0 0 12px 0 rgb(0 0 0 / 50%);
+}
+.comment:hover .comment_ban{
+    width: 100%;
+}
+.comment_clickable:hover{
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0 0 12px 0 rgb(0 0 0 / 50%), 0px 0px 12px 3.5px rgba(217, 58, 58, 0.5);
+    cursor: pointer;
 }
 
 /* ----------------------  */

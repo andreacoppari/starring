@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Navbar } from '../components/Navbar'
+import { PopupForm } from '../components/PopupForm'
 
 function Film() {
+    const [ btnPopup, setBtnPopup ] = useState(false)
     const [ film, setFilm ] = useState('')
 
     var pathArray = window.location.pathname.split('/');
@@ -51,7 +53,21 @@ function Film() {
             <div className="main_content">
                 <div className="content_header">
                     <h1 id="film_title">{film.title}</h1>
-                    <p><span className="rating_span">Add review</span></p>
+                    <p><span className="rating_span" onClick={() => setBtnPopup(true)}>Add review</span></p>
+                    <div className="popup-form">
+                        <PopupForm trigger={btnPopup} setTrigger={setBtnPopup}>
+                            <form>
+                                <textarea
+                                className='review'
+                                type="text"
+                                placeholder="Insert your review here"
+                                />
+                                <div className="clearfix">
+                                    <button type="submit">Add review</button>
+                                </div>
+                            </form>
+                        </PopupForm>
+                    </div>
                 </div>
                 <div className="content_main">
                     <div className="left_main">

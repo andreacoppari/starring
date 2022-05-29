@@ -5,6 +5,7 @@ import { PopupForm } from '../components/PopupForm'
 function Film() {
     const [ btnPopup, setBtnPopup ] = useState(false)
     const [ film, setFilm ] = useState('')
+    const [ review, setReview ] = useState('')
 
     var pathArray = window.location.pathname.split('/');
     async function getMovie() {
@@ -24,6 +25,29 @@ function Film() {
     useEffect(() => {
         getMovie()
     }, [])
+
+    async function updateReviews(event) {
+        event.preventDefault()
+
+        const req = await fetch('http://localhost:1234/api/addreview', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': localStorage.getItem('token'),
+            },
+            body: JSON.stringify ({
+                movie: film.title,
+                review: review,
+            }),
+        })
+
+        const data = await req.json()
+        if (data.status === 'ok') {
+            alert(`Review added to ${film.title} successfully!`)
+        } else {
+            alert(data.error)
+        }
+    }
 
     async function updateWatchlist(event) {
         event.preventDefault()
@@ -56,11 +80,14 @@ function Film() {
                     <p><span className="rating_span" onClick={() => setBtnPopup(true)}>Add review</span></p>
                     <div className="popup-form">
                         <PopupForm trigger={btnPopup} setTrigger={setBtnPopup}>
-                            <form>
+                            <form onSubmit={updateReviews}>
                                 <textarea
                                 className='review'
                                 type="text"
                                 placeholder="Insert your review here"
+                                onChange={(e) => {
+                                    setReview(e.target.value)
+                                }}
                                 />
                                 <div className="clearfix">
                                     <button type="submit">Add review</button>

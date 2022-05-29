@@ -147,6 +147,23 @@ app.post('/api/watchlist', async (req, res) => {
     }
 })
 
+app.post('/api/addreview', async (req, res) => {
+
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, secret)
+        const addReview = await Movie.updateOne(
+            { title: req.body.movie },
+            { $push: { reviews: req.body.review } })
+
+        return res.json({ status: 'ok', review: req.body.review })
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
+})
+
 app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')
 })

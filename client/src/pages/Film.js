@@ -7,6 +7,7 @@ function Film() {
     const [ film, setFilm ] = useState('')
     const [ review, setReview ] = useState('')
 
+
     var pathArray = window.location.pathname.split('/');
     async function getMovie() {
         const data = await fetch("http://localhost:1234/api/movies/"+pathArray[2], {
@@ -22,26 +23,10 @@ function Film() {
         }
     }
 
-    async function getUser() {
-        if (localStorage.getItem('token') == null) return
-    
-        const data = await fetch("http://localhost:1234/api/user", {
-            headers: {
-                'Content-type': 'application/json',
-                'x-access-token': localStorage.getItem('token'),
-            }
-        })
-        const res = await data.json()
-        if (res.status === 'ok') {
-            setUser(res.user)
-        } else {
-            console.log('ERROR')
-        }
-    }
-
     useEffect(() => {
         getMovie()
     }, [])
+
 
     async function updateReviews(event) {
         event.preventDefault()
@@ -66,6 +51,7 @@ function Film() {
         }
     }
 
+
     async function updateWatchlist(event) {
         event.preventDefault()
 
@@ -83,29 +69,6 @@ function Film() {
         const data = await req.json()
         if (data.status === 'ok') {
             alert(`${film.title} added to your watchlist`)
-        } else {
-            alert(data.error)
-        }
-    }
-
-    async function banReview(event, review) {
-        event.preventDefault()
-        console.log(event)
-        const req = await fetch('http://localhost:1234/api/mod-banreview', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'x-access-token': localStorage.getItem('token'),
-            },
-            body: JSON.stringify ({
-                review: review
-            })
-        })
-
-        const data = await req.json()
-        if (data.status === 'ok') {
-            alert(`review removed`)
-            getMovie()
         } else {
             alert(data.error)
         }
@@ -170,21 +133,9 @@ function Film() {
                 <div className="comment_container">
                     <div className="comment_container_title" id="review_container">
                         <h2>User reviews</h2>
-                        {!user.mod && film.reviews?.map((item, i) => { 
+                        {film.reviews?.map((item, i) => { 
                                 return(
                                 <div className='comment' key={i}>
-                                    <div className="comment_text">
-                                        <p>{item}</p>
-                                    </div>
-                                </div>
-                                )
-                            })}
-                        {user.mod && film.reviews?.map((item, i) => { 
-                                return(
-                                <div onClick={e => banReview(e, item)} className='comment comment_clickable' key={i}>
-                                    <div className='comment_ban'>
-                                        Ban
-                                    </div>
                                     <div className="comment_text">
                                         <p>{item}</p>
                                     </div>

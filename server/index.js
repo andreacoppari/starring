@@ -167,6 +167,7 @@ app.post('/api/watchlist', async (req, res) => {
     }
 })
 
+<<<<<<< Updated upstream
 
 app.post('/api/addreview', async (req, res) => {
 
@@ -195,6 +196,9 @@ app.post('/api/addreview', async (req, res) => {
     }
 })
 
+=======
+// --- *** MODERATOR APIS *** ---
+>>>>>>> Stashed changes
 app.post('/api/mod-banreview', async (req, res) => {
 
     const token = req.headers['x-access-token']
@@ -203,7 +207,6 @@ app.post('/api/mod-banreview', async (req, res) => {
         const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
-        console.log("intended to ban: " + req.body.review)
         const banReview = await Movie.updateOne(
             { title: req.body.movie },
             { $pull: { reviews: req.body.review } })
@@ -216,24 +219,41 @@ app.post('/api/mod-banreview', async (req, res) => {
     }
 })
 
+<<<<<<< Updated upstream
 /*
 app.post('/api/addreview', async (req, res) => {
+=======
+app.get('/api/user-review', async (req, res) => {
+>>>>>>> Stashed changes
 
     const token = req.headers['x-access-token']
 
     try {
+<<<<<<< Updated upstream
         const decoded = jwt.verify(token, secret)
         const removeReview = await Movie.updateOne(
             { title: req.body.movie },
             { $pop: { reviews: 1 } })
 
         return res.json({ status: 'ok', review: req.body.review })
+=======
+        //const decoded = jwt.verify(token, secret)
+        //if(decoded.mod == false) throw ''
+
+        const reviews = await Review.find({}, {})
+        
+        return res.json({ status: 'ok', reviews: reviews })
+>>>>>>> Stashed changes
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     }
+<<<<<<< Updated upstream
 })*/
 
+=======
+})
+>>>>>>> Stashed changes
 
 app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')

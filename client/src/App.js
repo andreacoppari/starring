@@ -5,6 +5,7 @@ import Register from './pages/Register'
 import Homepage from './pages/Homepage'
 import Film from './pages/Film'
 import Search from './pages/Search'
+import Moderator from './pages/Mod'
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/homepage" exact component={Homepage} />
             <Route path="/film/:id" exact component={Film} />
             <Route path="/search" exact component={Search} />
+            <Route path="/moderator" exact component={Moderator} />
         </BrowserRouter>
     </div>
     )

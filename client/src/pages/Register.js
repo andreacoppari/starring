@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import "../css/signform.css"
-import { GoogleLogin } from 'react-google-login'
-import { gapi } from 'gapi-script'
 
 function App() {
   const history = useHistory()
@@ -57,14 +55,7 @@ function App() {
           <div className='form_content'>
             <h1>Registrati a Starring</h1>
             <div className="auth_google">
-              <GoogleLogin
-                    clientId='426974248841-ef5qifroecnne6pq55mgs88f9j6tr112.apps.googleusercontent.com'
-                    buttonText='Login with Google'
-                    onSuccess={googleSuccess}
-                    onFailure={googleFail}
-                    cookiePolicy={'single_host_origin'}
-                    isSignedIn={true}
-                  />
+                  <a href="/auth/google" className="btn red darken-1"> <i className="fab fa-google left"></i> Login with Google</a>
                   <p>oppure</p>
             </div>
             <label htmlFor="username"><b>Username</b></label>

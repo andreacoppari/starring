@@ -25,6 +25,10 @@ const User = new mongoose.Schema({
     watchlist: {
         type: Array,
         default: []
+    },
+    reviews: {
+        type: Array,
+        default: []
     }
 },
 {

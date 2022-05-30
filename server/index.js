@@ -5,6 +5,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/User')
 const Movie = require('./models/Movie')
+const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 
@@ -153,9 +154,18 @@ app.post('/api/addreview', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, secret)
-        const addReview = await Movie.updateOne(
+        const newReview = await Review.create(
+            {
+                movie: req.body.movie,
+                review: req.body.review,
+                user: decoded.username,
+                email: decoded.email })
+        const addReviewToMovie = await Movie.updateOne(
             { title: req.body.movie },
             { $push: { reviews: req.body.review } })
+        const addReviewToUser = await User.updateOne(
+            { title: req.body.movie },
+            { $push: { userReviews: newReview._id } })
 
         return res.json({ status: 'ok', review: req.body.review })
     } catch (error) {
@@ -163,6 +173,23 @@ app.post('/api/addreview', async (req, res) => {
         res.json({ status: 'error', error: 'invalid token' })
     }
 })
+/*
+app.post('/api/addreview', async (req, res) => {
+
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, secret)
+        const removeReview = await Movie.updateOne(
+            { title: req.body.movie },
+            { $pop: { reviews: 1 } })
+
+        return res.json({ status: 'ok', review: req.body.review })
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
+})*/
 
 app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')

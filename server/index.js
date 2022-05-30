@@ -164,8 +164,8 @@ app.post('/api/addreview', async (req, res) => {
             { title: req.body.movie },
             { $push: { reviews: req.body.review } })
         const addReviewToUser = await User.updateOne(
-            { title: req.body.movie },
-            { $push: { userReviews: newReview._id } })
+            { email: decoded.email },
+            { $push: { reviews: req.body.review } })
 
         return res.json({ status: 'ok', review: req.body.review })
     } catch (error) {

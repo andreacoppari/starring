@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Navbar } from '../components/Navbar'
+import { PopupForm } from '../components/PopupForm'
 
 function Film() {
+    const [ btnPopup, setBtnPopup ] = useState(false)
     const [ film, setFilm ] = useState('')
-    const [ user, setUser ] = useState('')
+    const [ review, setReview ] = useState('')
 
     var pathArray = window.location.pathname.split('/');
     async function getMovie() {
@@ -41,9 +43,28 @@ function Film() {
         getMovie()
     }, [])
 
-    useEffect(() => {
-        getUser()
-    }, [])
+    async function updateReviews(event) {
+        event.preventDefault()
+
+        const req = await fetch('http://localhost:1234/api/addreview', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': localStorage.getItem('token'),
+            },
+            body: JSON.stringify ({
+                movie: film.title,
+                review: review,
+            }),
+        })
+
+        const data = await req.json()
+        if (data.status === 'ok') {
+            alert(`Review added to ${film.title} successfully!`)
+        } else {
+            alert(data.error)
+        }
+    }
 
     async function updateWatchlist(event) {
         event.preventDefault()
@@ -96,7 +117,24 @@ function Film() {
             <div className="main_content">
                 <div className="content_header">
                     <h1 id="film_title">{film.title}</h1>
-                    <p><span className="rating_span">Add review</span></p>
+                    <p><span className="rating_span" onClick={() => setBtnPopup(true)}>Add review</span></p>
+                    <div className="popup-form">
+                        <PopupForm trigger={btnPopup} setTrigger={setBtnPopup}>
+                            <form onSubmit={updateReviews}>
+                                <textarea
+                                className='review'
+                                type="text"
+                                placeholder="Insert your review here"
+                                onChange={(e) => {
+                                    setReview(e.target.value)
+                                }}
+                                />
+                                <div className="clearfix">
+                                    <button type="submit">Add review</button>
+                                </div>
+                            </form>
+                        </PopupForm>
+                    </div>
                 </div>
                 <div className="content_main">
                     <div className="left_main">
@@ -106,7 +144,7 @@ function Film() {
                         <div className="info">
                             <p id="film_year"><b>Release year</b>: {film.year}</p>
                             
-                            <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).map(i => { return i+', '})}</p>
+                            <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).join(", ")}</p>
                         </div>
                         <div className="info_2">
                             <p><span onClick={updateWatchlist} className="watchlist_span">+ Watchlist</span></p>

@@ -5,8 +5,11 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/User')
 const Movie = require('./models/Movie')
+const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
+
+let secret = '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'
 
 app.use(cors())
 app.use(express.json())
@@ -39,6 +42,7 @@ const handleErrors = (err) => {
 
 app.post('/api/register', async (req, res) => {
     try {
+        console.log(req.body)
         if (req.body.password !== req.body.passwordR){
             throw new SyntaxError('different passwords');     
         }
@@ -56,17 +60,21 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password,
+        email: req.body.email
     })
 
     if (user) {
         moderate = user.email == 'mod@mod.com'
         const token = jwt.sign({
             username: user.username,
+<<<<<<< HEAD
             email: user.email,
             mod: moderate
         }, 'secret123')
+=======
+            email: user.email   
+        }, secret)
+>>>>>>> 028ada8b3926cae5775d8b63da41d637567450fc
         return res.json({ status: 'ok', user: token })
     } else {
         return res.json({ status: 'error', user: false })
@@ -130,7 +138,7 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -141,19 +149,46 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
-// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
 
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.updateOne(
             { email: email },
             { $push: { watchlist: req.body.watchlist } })
 
         return res.json({ status: 'ok', watchlist: req.body.watchlist })
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
+})
+
+
+app.post('/api/addreview', async (req, res) => {
+
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, secret)
+        const newReview = await Review.create(
+            {
+                movie: req.body.movie,
+                review: req.body.review,
+                user: decoded.username,
+                email: decoded.email })
+        const addReviewToMovie = await Movie.updateOne(
+            { title: req.body.movie },
+            { $push: { reviews: req.body.review } })
+        const addReviewToUser = await User.updateOne(
+            { email: decoded.email },
+            { $push: { reviews: req.body.review } })
+
+
+        return res.json({ status: 'ok', review: req.body.review })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -173,12 +208,32 @@ app.post('/api/mod-banreview', async (req, res) => {
             { title: req.body.movie },
             { $pull: { reviews: req.body.review } })
 
+
         return res.json({ status: 'ok', review: req.body.review })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     }
 })
+
+/*
+app.post('/api/addreview', async (req, res) => {
+
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, secret)
+        const removeReview = await Movie.updateOne(
+            { title: req.body.movie },
+            { $pop: { reviews: 1 } })
+
+        return res.json({ status: 'ok', review: req.body.review })
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
+})*/
+
 
 app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')

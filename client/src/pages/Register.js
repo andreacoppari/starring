@@ -11,6 +11,16 @@ function App() {
   const [ password, setPassword ] = useState('')
   const [ passwordR, setPasswordR ] = useState('')
 
+  const googleSuccess = async (res) => {
+    window.location.href = "/homepage"
+    alert("Login with Google successful!")
+  }
+
+  const googleFail = (res) => {
+    window.location.href = "/login"
+    alert("Login with Google failed")
+  }
+
   async function registerUser(event) {
     event.preventDefault()
 

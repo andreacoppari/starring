@@ -5,8 +5,8 @@ export function Navbar() {
     const [ user, setUser ] = useState('')
 
     async function getUser() {
-        setUser({mod: true})
         if(localStorage.getItem('token') == null) return
+        
         const data = await fetch("http://localhost:1234/api/user", {
             headers: {
                 'Content-type': 'application/json',
@@ -14,6 +14,7 @@ export function Navbar() {
             }
         })
         const res = await data.json()
+        console.log(res)
         if (res.status === 'ok') {
             setUser(res.user)
         } else {
@@ -36,6 +37,7 @@ export function Navbar() {
                 </form>
                 </div>
             <a href="/login"><i className="fas fa-user"></i></a>
+            {user.username && <p>{user.username}</p>}
             {user.mod && <a href="/moderator">Moderator Area</a>}
         </div>
     </nav>

@@ -188,8 +188,8 @@ app.post('/api/removereviews', async (req, res) => {
         if(decoded.mod == false) throw ''
 
         const users = []
-        await req.body.reviews.forEach(review => {
-            const user = User.updateOne(
+        await req.body.reviews.forEach(async review => {
+            const user = await User.updateOne(
                 { email: review.email },
                 { $pull: { reviews: review._id } })
             users.push(user)

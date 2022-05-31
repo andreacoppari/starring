@@ -76,6 +76,34 @@ p {
     color: black;
     
 }
+.autocomplete {
+    position: relative;
+    display: inline-block;
+}
+.autocomplete-items {
+    position: absolute;
+    background-color: rgb(32, 32, 32);
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-left: 16px;
+    border-radius: 6px;
+}
+.autocomplete-items div {
+    display: flex;
+    cursor: pointer;
+    margin: 5px;
+    background-color: rgb(39, 39, 39);
+    border-radius: 6px;
+}
+.autocomplete-items a {
+    text-align: left;
+    width: 100%;
+}
+.autocomplete-items div:hover {
+    background-color: #584343;
+}
 
 .main_content{
     width: 1050px;

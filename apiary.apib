@@ -16,7 +16,8 @@ Create a new user
                 "status": "error",
                 "message": "A password is required"
             }
-            
+
+
 # /api/recommended
 ## Return recommended films [GET]
 Return list of films
@@ -211,6 +212,43 @@ Search for films using variable ?search= + the of the film searched. For example
 Add a review to a movie, it is called in the relative movie page.
 + Response 200 (application/json)
     
+    + Body
+    
+            {
+                "status": "error",
+                "error": "invalid token"
+            }
+
+
+# /api/reviews
+## Return users reviews [GET]
+If the header contains valid moderator, returns list of users reviews
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "status": "error",
+                "error": "invalid token"
+            }
+
+# /api/user
+## Return user [GET]
+If the header contains a valid token, it provides information about the user
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "status": "error",
+                "error": "invalid token"
+            }
+
+# /api/removereviews
+## Remove reviews [POST]
+If the header contains valid moderator, remove the reviews to: user, movie, review. it is called in the moderator page
++ Response 200 (application/json)
+
     + Body
     
             {

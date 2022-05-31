@@ -14,7 +14,10 @@ function Moderator() {
         })
         
         const res = await data.json()
-        console.log(res)
+        res.reviews.push({_id: 1, email: "ciao@", user: "ciao", review:"My text", movie:"Joker", createdAt: Date.now()})
+        res.reviews.push({_id: 2, email: "ciao@", user: "ciao", review:"My different text", movie:"Tantak", createdAt: Date.now()})
+        res.reviews.push({_id: 3, email: "other@", user: "other", review:"hello", movie:"Joker", createdAt: Date.now()})
+        res.reviews.push({_id: 4, email: "ciao@", user: "ciao", review:"My text2", movie:"Joker", createdAt: Date.now()})
         if (res.status === 'ok') {
             setReviews(res.reviews)
         } else {
@@ -53,23 +56,23 @@ function Moderator() {
         }
     }
 
-    function selectReview(event, review) {
+    async function selectReview(event, review) {
         review.selected = !(review.selected || false)
         review.selected ? setSelected(selected+1) : setSelected(selected-1)
         setReviews([...reviews])
     }
 
-    function selectReviews(event) {
-        event.preventDefault()
-
+    async function selectReviews(select) {
         var newSelected = selected
         const newReviews = []
-        var str = document.forms['searchReview']['text'].value
+        const str = document.forms['searchReview']['text'].value
+        const exp = new RegExp(str, "i")
+        
         reviews.forEach(review => {
-            if (!(review.selected || false)) {
-                if (review.review.includes(str)) {
-                    review.selected = true
-                    newSelected++
+            if ((review.selected || false) != select) {
+                if (exp.test(review.review)) {
+                    review.selected = select
+                    select? newSelected++ : newSelected--
                 }
             }
             newReviews.push(review)
@@ -87,9 +90,10 @@ function Moderator() {
                     <p><span onClick={removeReviews} className="rating_span">Ban selected reviews {selected > 0 ? "("+selected+")" : ""}</span></p>
                 </div>
                 <div className="content_main">
-                    <form name='searchReview' onSubmit={selectReviews}>
-                        <input name='text' type="text" placeholder="Search contents"/>
-                        <button type="submit">Select</button>
+                    <form name='searchReview'>
+                        <input name='text' type="text" placeholder="Search text"/>
+                        <button type="button" onClick={e => selectReviews(true)}>Select</button>
+                        <button type="button" onClick={e => selectReviews(false)}>Unselect</button>
                     </form>
                 </div>
                 <div className="content_footer">
@@ -105,21 +109,20 @@ function Moderator() {
                                 <div onClick={e => selectReview(e, item)}
                                 className={'comment' + (item.selected ? ' comment_selected' : ' comment_selectable')}
                                 key={item._id}>
-
-                                    <div className='comment_ban'>
-                                        {item.selected ? "Unselect" : "Select"}
-                                    </div>
-                                    <div className='comment_title'>
-                                        <h4>{item.user} {item.email}</h4>
-                                    </div>
-                                    <div className='comment_user'>
-                                        <p>{item.movie}</p>
-                                    </div>
-                                    <div className="comment_text">
-                                        <div className='comment_title'>
-                                            <p>{item.review}</p>
+                                    <div className='comment_head'>
+                                        <div>
+                                            <div className='comment_title'>
+                                                <h4>{item.movie}</h4>
+                                            </div>
+                                            <div className='comment_user'>
+                                                <p><i>{item.user} {new Date(item.createdAt).toLocaleDateString()}</i></p>
+                                            </div>
+                                        </div>
+                                        <div className='comment_ban'>
+                                            <u>{item.selected ? "unselect" : "select"}</u>
                                         </div>
                                     </div>
+                                    <p>{item.review}</p>
                                 </div>
                                 )
                             })}

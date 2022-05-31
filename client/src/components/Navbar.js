@@ -5,6 +5,7 @@ export function Navbar() {
     const [ user, setUser ] = useState('')
     const [ filmFound, setFilmFound ] = useState([])
     const [ showSearch, setShowSearch] = useState(false)
+    const [ reftime, setReftime] = useState(null)
 
     async function getUser() {
         if(localStorage.getItem('token') == null) return
@@ -16,7 +17,7 @@ export function Navbar() {
             }
         })
         const res = await data.json()
-        console.log(res)
+        
         if (res.status === 'ok') {
             setUser(res.user)
         } else {
@@ -44,13 +45,22 @@ export function Navbar() {
     
     }
 
+    async function showSearchHandler(e) { // per permettere ai sottoelementi di essere cliccati senza che si perda il focus
+        if (e.type == 'focus') {
+            setShowSearch(true)
+            clearTimeout(reftime)
+        } else if(e.type == 'blur') {
+            setReftime(setTimeout(() => setShowSearch(false), 0))
+        }
+    }
+
     return(
     <nav>
         <div className="navbar_container">
             <a href="/homepage">STARRING</a>
             <div className="search-navbar_container">
                 <form action="/search" method="get" autoComplete='off'>
-                    <div className='autocomplete' onFocus={e => setShowSearch(true)}>
+                    <div className='autocomplete' onFocus={showSearchHandler} onBlur={showSearchHandler}>
                         <input type="text" placeholder="Search" name="search" onChange={e => getMovie(e.target.value)}/>
 
                         {showSearch &&

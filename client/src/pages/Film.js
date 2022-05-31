@@ -136,9 +136,7 @@ function Film() {
                         {film.reviews?.map((item, i) => { 
                                 return(
                                 <div className='comment' key={i}>
-                                    <div className="comment_text">
-                                        <p>{item}</p>
-                                    </div>
+                                    <p>{item}</p>
                                 </div>
                                 )
                             })}

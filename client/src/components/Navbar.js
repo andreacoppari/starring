@@ -68,7 +68,7 @@ export function Navbar() {
                                 {
                                 filmFound.length > 0 ? filmFound.slice(0,3).map((film) => (
                                         <div key={film._id}>
-                                            <a href={"/film/"+`${film.title}`}>{film.title}</a>
+                                            <a href={"/film/"+film.title}>{film.title}</a>
                                         </div>
                                     )) : <p>No movie found!</p>
                                 }

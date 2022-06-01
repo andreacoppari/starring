@@ -14,10 +14,7 @@ function Moderator() {
         })
         
         const res = await data.json()
-        res.reviews.push({_id: 1, email: "ciao@", user: "ciao", review:"My text", movie:"Joker", createdAt: Date.now()})
-        res.reviews.push({_id: 2, email: "ciao@", user: "ciao", review:"My different text", movie:"Tantak", createdAt: Date.now()})
-        res.reviews.push({_id: 3, email: "other@", user: "other", review:"hello", movie:"Joker", createdAt: Date.now()})
-        res.reviews.push({_id: 4, email: "ciao@", user: "ciao", review:"My text2", movie:"Joker", createdAt: Date.now()})
+        
         if (res.status === 'ok') {
             setReviews(res.reviews)
         } else {

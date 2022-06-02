@@ -17,6 +17,7 @@ function Film() {
         })
         const res = await data.json()
         if (res.status === 'ok') {
+            res.movie.reviews.reverse()
             setFilm(res.movie)
         } else {
             console.log('ERROR')
@@ -63,6 +64,9 @@ function Film() {
 
         const data = await req.json()
         if (data.status === 'ok') {
+            const newFilm = {...film}
+            newFilm.reviews.unshift(review)
+            setFilm(newFilm)
             alert(`Review added to ${film.title} successfully!`)
         } else {
             alert(data.error)

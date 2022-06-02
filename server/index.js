@@ -280,18 +280,29 @@ app.post('/api/removereviews', async (req, res) => {
         const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
-        const users = []
-        req.body.reviews.forEach(review => {
-            const user = User.updateOne(
-                { email: review.email },
-                { $pull: { reviews: review._id } })
-            users.push(user)
-        })
+        const rmMovies = []
+        const rmUsers = []
+        const rmReviews = []
 
-        const reviews = await Review.deleteMany(
-            { _id: { $in : req.body.reviews} })
-        console.log(reviews)
-        return res.json({ status: 'ok', reviews: reviews })
+        for(let i=0; i < req.body.reviews.length; i++) {
+            const review = req.body.reviews[i]
+
+            const rmMovie = await Movie.updateOne(
+                { title: review.movie },
+                { $pull: { reviews: review.review } })
+            rmMovies.push(rmMovie)
+
+            const rmUser = await User.updateOne(
+                { email: review.email },
+                { $pull: { reviews: review.review } })
+            rmUsers.push(rmUser)
+
+            const rmReview = await Review.deleteOne(
+                { _id: review._id })
+            rmReviews.push(rmReview)
+        }
+        
+        return res.json({ status: 'ok', reviews: rmReviews })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

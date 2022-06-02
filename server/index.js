@@ -160,7 +160,8 @@ app.get('/api/newfilm', async (req, res) => {
 
 app.get('/api/search', async (req, res) => {
     if(req.query.search){
-        const movie = await Movie.find({'title': new RegExp(req.query.search, 'i')})
+        const exp = new RegExp(req.query.search, 'i')
+        const movie = await Movie.find({ $or: [ {'title': exp}, {'genres': exp} ] })
         return res.json({ status: 'ok', movie: movie })
     } else {
         return res.json({ status: 'error', error: 'movies not found' })

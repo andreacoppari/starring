@@ -34,20 +34,23 @@ export function Navbar() {
         const inizia = []
         const contiene_inizia = []
         const contiene = []
+        const altro = []
         const exp = new RegExp(search, "i")
         var index = 0
         movies.forEach(m => {
             index = m.title.search(exp)
             if (index == 0) inizia.push(m)
             else if (m.title[index-1] == ' ') contiene_inizia.push(m)
-            else contiene.push(m)
+            else if (index >= 0) contiene.push(m)
+            else altro.push(m)
         });
-        return inizia.concat(contiene_inizia, contiene)
+        return inizia.concat(contiene_inizia, contiene, altro)
     }
 
     async function getMovie(target) {
         const search = target.value
         setSearchMovie(search)
+        setFilmFound(sortMovies(search, filmFound))
         
         const data = await fetch("http://localhost:1234/api/search?search="+search, {
             headers: {

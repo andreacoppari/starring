@@ -5,6 +5,7 @@ export function Navbar() {
     const [ user, setUser ] = useState('')
     const [ filmFound, setFilmFound ] = useState([])
     const [ showSearch, setShowSearch] = useState(false)
+    const [ searching, setSearching] = useState(false)
     const [ reftime, setReftime] = useState(null)
 
     async function getUser() {
@@ -29,20 +30,40 @@ export function Navbar() {
         getUser()
     }, [])
 
-    async function getMovie(movie) {
-        const data = await fetch("http://localhost:1234/api/search?search="+movie, {
+    function sortMovies(search, movies) {
+        const inizia = []
+        const contiene_inizia = []
+        const contiene = []
+        const exp = new RegExp(search, "i")
+        var index = 0
+        movies.forEach(m => {
+            index = m.title.search(exp)
+            if (index == 0) inizia.push(m)
+            else if (m.title[index-1] == ' ') contiene_inizia.push(m)
+            else contiene.push(m)
+        });
+        return inizia.concat(contiene_inizia, contiene)
+    }
+
+    async function getMovie(target) {
+        setSearching(true)
+        const search = target.value
+        
+        const data = await fetch("http://localhost:1234/api/search?search="+search, {
             headers: {
                 'Content-type': 'application/json',
             }
         })
         const res = await data.json()
+        
+        if (search != target.value) return
         if (res.status === 'ok') {
-            setFilmFound(res.movie)
+            setFilmFound(sortMovies(search, res.movie))
         } else {
             setFilmFound([])
             console.log('ERROR')
         }
-    
+        setSearching(false)
     }
 
     async function showSearchHandler(e) { // per permettere ai sottoelementi di essere cliccati senza che si perda il focus
@@ -61,16 +82,17 @@ export function Navbar() {
             <div className="search-navbar_container">
                 <form action="/search" method="get" autoComplete='off'>
                     <div className='autocomplete' onFocus={showSearchHandler} onBlur={showSearchHandler}>
-                        <input type="text" placeholder="Search" name="search" onChange={e => getMovie(e.target.value)}/>
+                        <input type="text" placeholder="Search" name="search" onChange={e => getMovie(e.target)}/>
 
                         {showSearch &&
                             <div className='autocomplete-items'>
+                                {searching ? <p>Searching...</p> : filmFound.length == 0 && <p>No movie found!</p> }
                                 {
-                                filmFound.length > 0 ? filmFound.slice(0,3).map((film) => (
+                                filmFound.slice(0,3).map((film) => (
                                         <div key={film._id}>
                                             <a href={"/film/"+film.title}>{film.title}</a>
                                         </div>
-                                    )) : <p>No movie found!</p>
+                                    ))
                                 }
                             </div>
                         }

@@ -4,6 +4,21 @@ import { Navbar } from '../components/Navbar'
 const Search = () => {
     const [ filmFound, setFilmFound ] = useState([])
 
+    function sortMovies(search, movies) {
+        const inizia = []
+        const contiene_inizia = []
+        const contiene = []
+        const exp = new RegExp(search, "i")
+        var index = 0
+        movies.forEach(m => {
+            index = m.title.search(exp)
+            if (index == 0) inizia.push(m)
+            else if (m.title[index-1] == ' ') contiene_inizia.push(m)
+            else contiene.push(m)
+        });
+        return inizia.concat(contiene_inizia, contiene)
+    }
+
     var url = new URL(window.location.href);
     var search = url.searchParams.get("search");
     async function getMovie() {
@@ -14,7 +29,7 @@ const Search = () => {
         })
         const res = await data.json()
         if (res.status === 'ok') {
-            setFilmFound(res.movie)
+            setFilmFound(sortMovies(search, res.movie))
         } else {
             console.log('ERROR')
         }
@@ -31,8 +46,8 @@ const Search = () => {
             <h1>Film trovati: </h1>
             <ul>{
                 filmFound.length > 0 ?
-            filmFound.map((key, i) => (
-                <li key={key.title}><a href={"/film/"+`${key.title}`}>{key.title}</a></li>
+            filmFound.map((key) => (
+                <li key={key._id}><a href={"/film/"+key.title}>{key.title}</a></li>
             )): <p>No movie found!</p>
             }
             </ul>

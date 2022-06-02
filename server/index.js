@@ -52,11 +52,11 @@ const handleErrors = (err) => {
     return errors;
 }
 
-const maxAge = 60 * 60
+/*const maxAge = 60 * 60
 const createToken = (id, mod) => {
     //return jwt.sign({id}, sec, {expisesIn: maxAge});
     return jwt.sign({id, mod}, secret);
-}
+}*/
 
 app.post('/api/register', async (req, res) => {
     try {
@@ -77,7 +77,7 @@ app.post('/api/register', async (req, res) => {
             }
         }
         if (cont < 111){
-            throw new SyntaxError('weak password');     
+            throw Error('weak password');     
         }
         
         const user = await User.create({
@@ -110,7 +110,11 @@ app.post('/api/login', async (req, res) => {
     try{
         const user = await login(email, password);
         moderate = user.email == 'mod@mod.it'
-        const token = createToken(user._id, moderate)
+        const token = jwt.sign({
+            username: user.username,
+            email: user.email,
+            mod: moderate
+        }, secret)
         res.json({ status: 'ok', user: token })
     }
     catch (err) {
@@ -194,7 +198,9 @@ app.get('/api/watchlist', async (req, res) => {
 
 app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
-
+    if(token == "null"){
+        return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
+    }
     try {
         const decoded = jwt.verify(token, secret)
         const email = decoded.email
@@ -222,9 +228,9 @@ app.post('/api/watchlist', async (req, res) => {
 })
 
 app.post('/api/addreview', async (req, res) => {
-
     const token = req.headers['x-access-token']
-
+    if(token == "null")
+        return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
     try {
         const decoded = jwt.verify(token, secret)
         const newReview = await Review.create(

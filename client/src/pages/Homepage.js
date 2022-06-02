@@ -9,6 +9,8 @@ const Homepage = () => {
     const [ recommended, setRecommended ] = useState([])
     const [ newFilm, setNewFilm ] = useState([])
 
+    const token = localStorage.getItem('token')
+
     async function getRecommended() {
         const data = await fetch("http://localhost:1234/api/recommended", {
             headers: {
@@ -55,16 +57,16 @@ const Homepage = () => {
             setWatchlist(data.watchlist)
         }
     }
-
+    
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
+        console.log("test")
+        if(token){
             const user = jwt.decode(token)
+            console.log("user: "+user)
             if (!user) {
                 localStorage.removeItem('token')
                 history.replace('/login')
-            }
-            else {
+            } else {
                 populateWatchlist()
             }
         }
@@ -83,8 +85,7 @@ const Homepage = () => {
                         <p><span><i className="fa fa-angle-right"></i></span></p>
                     </div>
                 </div>
-
-                <div className="film_list">
+                {token && <div className="film_list">
                     <div className="film_list_title">
                         <h3>Watchlist</h3>
                     </div>
@@ -95,7 +96,7 @@ const Homepage = () => {
                                 )
                             })}
                     </div>
-                </div>
+                </div>}
                 
                 <div className="film_list">
                     <div className="film_list_title">

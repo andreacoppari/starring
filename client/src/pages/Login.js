@@ -39,9 +39,17 @@ function App() {
       wrongPassword.textContent=data.errors.password
     }
     else{
+
       localStorage.setItem('token', data.user)
       window.location.href = "/homepage"
     }
+    /*if (data.user) {
+      localStorage.setItem('token', data.user)
+
+      window.location.href = "/homepage"
+    } else {
+      alert(data.message)
+    }*/
   }
 
   return (

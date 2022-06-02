@@ -9,6 +9,8 @@ const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 
+let secret = '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'
+
 app.use(cors())
 app.use(express.json())
 
@@ -79,7 +81,7 @@ app.get('/api/user', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         
         return res.json({ status: 'ok', user: decoded })
     } catch (error) {
@@ -130,7 +132,7 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -154,7 +156,7 @@ app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
 
         var user = await User.findOne({ email: email })
@@ -212,7 +214,7 @@ app.get('/api/reviews', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
         const reviews = await Review.find({}).sort({'createdAt': -1})

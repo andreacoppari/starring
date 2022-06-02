@@ -11,11 +11,6 @@ const { query } = require('express')
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser')
 
-//import {BrowserRouter, Routes, Route} from 'react-router-dom';
-//const useCookie = require('react-cookie')
-
-//require('dotenv').config
-// da mettere in .env
 const sec = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
 
 let secret = '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'
@@ -63,7 +58,6 @@ const handleErrors = (err) => {
 
 const maxAge = 60 * 60
 const createToken = (id) => {
-    //return jwt.sign({id}, sec, {expisesIn: maxAge});
     return jwt.sign({id}, sec);
 }
 
@@ -94,8 +88,6 @@ app.post('/api/register', async (req, res) => {
             email: req.body.email,
             password: req.body.password,
         })
-        /*const token = createToken(user._id)
-        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})*/
         res.json({ status: 'ok', user: user._id })
     } catch (err) {
         const errors = handleErrors(err);
@@ -120,44 +112,15 @@ app.post('/api/login', async (req, res) => {
     try{
         const user = await login(email, password);
         const token = createToken(user._id)
-        console.log("weeeeeeeeeeeeeeeeeeeeee3")
-        //res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+
         res.cookie('jwt', token)
         res.json({ status: 'ok', user: user._id })
     }
     catch (err) {
         const errors = handleErrors(err);
         res.json({ errors });
-        /*
-    const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password,
-    })
-
-    if (user) {
-        moderate = user.email == 'ciao'
-        const token = jwt.sign({
-            username: user.username,
-            email: user.email,
-            mod: moderate
-        }, secret)
-        return res.json({ status: 'ok', user: token })
-    } else {
-        return res.json({ status: 'error', user: false })*/
     }
 })
-/*
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split('')[1]
-    if(token == null) return res.sendStatus(401)
-    jwt.verify(token, sec, (err,user) => {
-        if(err) return res.sendStatus(403)
-        req.user = user
-        next()
-    })
-}*/
-
 
 app.get('/api/user', async (req, res) => {
     const token = req.headers['x-access-token']
@@ -214,7 +177,6 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        //const decoded = jwt.verify(token, sec)
         const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.findOne({ email: email })
@@ -234,12 +196,10 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
-// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        //const decoded = jwt.verify(token, sec)
         const decoded = jwt.verify(token, secret)
         const email = decoded.email
 

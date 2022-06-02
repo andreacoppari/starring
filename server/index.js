@@ -129,7 +129,6 @@ app.get('/api/movies/:id', async (req, res) => {
 })
 
 app.get('/api/watchlist', async (req, res) => {
-
     const token = req.headers['x-access-token']
 
     try {
@@ -137,7 +136,15 @@ app.get('/api/watchlist', async (req, res) => {
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
-        return { status: 'ok', watchlist: user.watchlist }
+        // Return from database all titles and covers of movies
+        const movies = await Movie.find({}, {title:1, cover:1})
+        var watchlist = []
+        // Find every movie which has the same title as the movies inside user.watchlist and put them inside array watchlist
+        for(let i=0; i<user.watchlist.length; i++){
+            watchlist.push(movies.find(element => element.title == user.watchlist[i]))
+        }
+        // Return watchlist
+        return res.json({ status: 'ok', watchlist: watchlist})
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -145,17 +152,28 @@ app.get('/api/watchlist', async (req, res) => {
 })
 
 app.post('/api/watchlist', async (req, res) => {
-
     const token = req.headers['x-access-token']
 
     try {
         const decoded = jwt.verify(token, secret)
         const email = decoded.email
-        const user = await User.updateOne(
+
+        var user = await User.findOne({ email: email })
+        // Check if film is already inside watchlist
+        if(user.watchlist.includes(req.body.watchlist)){
+            //Remove from watchlist
+            await User.updateOne(
+                {email: email},
+                {$pull: {watchlist: req.body.watchlist}})
+            res.json({ status: 'ok', watchlist: req.body.watchlist, msg: ' removed from your watchlist.' })
+            return;
+        }
+        //Add to watchlist
+        user = await User.updateOne(
             { email: email },
             { $push: { watchlist: req.body.watchlist } })
 
-        return res.json({ status: 'ok', watchlist: req.body.watchlist })
+        return res.json({ status: 'ok', watchlist: req.body.watchlist, msg: ' added to your watchlist.'})
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

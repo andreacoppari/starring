@@ -6,6 +6,9 @@ function App() {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
+  const wrongEmail = document.querySelector('.wrong_email')
+  const wrongPassword = document.querySelector('.wrong_password')
+  
   const googleSuccess = (res) => {
     window.location.href = "/homepage"
     alert("Login with Google successful!")
@@ -31,14 +34,22 @@ function App() {
     })
   
     const data = await response.json()
-  
-    if (data.user) {
+    if(data.errors){
+      wrongEmail.textContent=data.errors.email
+      wrongPassword.textContent=data.errors.password
+    }
+    else{
+      console.log("weeeeeeeeeeeeeeeeeeeeee1")
+      //localStorage.setItem('token', data.user)
+      window.location.href = "/homepage"
+    }
+    /*if (data.user) {
       localStorage.setItem('token', data.user)
       alert('Login successful')
       window.location.href = "/homepage"
     } else {
-      alert('Login failed. Please check your username and password')
-    }
+      alert(data.message)
+    }*/
   }
 
   return (
@@ -59,6 +70,7 @@ function App() {
               type="text"
               placeholder="email"
             />
+            <div className="wrong_email"></div>
             <label htmlFor="password"><b>Password</b></label>
             <input
               value={password}
@@ -66,6 +78,7 @@ function App() {
               type="password"
               placeholder="password"
             />
+            <div className="wrong_password"></div>
             <label> <input type="checkbox" name="remember" style={{marginBottom: '15px'}}/> Ricordami</label>
             <a href="/register" style={{float: 'right', color: 'inherit'}} title="Crea un account">Non hai un account?</a>
             <div className="clearfix">
@@ -74,7 +87,7 @@ function App() {
           </div>
         </form>
       </div>
-      </div>
+    </div>
   );
 }
 

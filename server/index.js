@@ -9,8 +9,6 @@ const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 
-let secret = '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'
-
 app.use(cors())
 app.use(express.json())
 
@@ -42,7 +40,6 @@ const handleErrors = (err) => {
 
 app.post('/api/register', async (req, res) => {
     try {
-        console.log(req.body)
         if (req.body.password !== req.body.passwordR){
             throw new SyntaxError('different passwords');     
         }
@@ -60,11 +57,12 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const user = await User.findOne({
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password,
     })
 
     if (user) {
-        moderate = user.email == 'mod@mod.com'
+        moderate = user.email == 'ciao'
         const token = jwt.sign({
             username: user.username,
             email: user.email,
@@ -82,8 +80,8 @@ app.get('/api/user', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, 'secret123')
-
-        return { status: 'ok', user: decoded }
+        
+        return res.json({ status: 'ok', user: decoded })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -132,7 +130,7 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, 'secret123')
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -151,11 +149,12 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
+// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, 'secret123')
         const email = decoded.email
 
         var user = await User.findOne({ email: email })
@@ -206,20 +205,44 @@ app.post('/api/addreview', async (req, res) => {
     }
 })
 
-app.post('/api/mod-banreview', async (req, res) => {
+// --- *** MODERATOR APIS *** ---
 
+app.get('/api/reviews', async (req, res) => {
+
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+        if(decoded.mod == false) throw ''
+
+        const reviews = await Review.find({}).sort({'createdAt': -1})
+        
+        return res.json({ status: 'ok', reviews: reviews })
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
+})
+
+app.post('/api/removereviews', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
         const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
-        console.log("intended to ban: " + req.body.review)
-        const banReview = await Movie.updateOne(
-            { title: req.body.movie },
-            { $pull: { reviews: req.body.review } })
+        const users = []
+        req.body.reviews.forEach(review => {
+            const user = User.updateOne(
+                { email: review.email },
+                { $pull: { reviews: review._id } })
+            users.push(user)
+        })
 
-        return res.json({ status: 'ok', review: req.body.review })
+        const reviews = await Review.deleteMany(
+            { _id: { $in : req.body.reviews} })
+        console.log(reviews)
+        return res.json({ status: 'ok', reviews: reviews })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

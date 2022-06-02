@@ -6,6 +6,7 @@ function Film() {
     const [ btnPopup, setBtnPopup ] = useState(false)
     const [ film, setFilm ] = useState('')
     const [ review, setReview ] = useState('')
+    const [ watchlist, setWatchlist ] = useState([])
 
     var pathArray = window.location.pathname.split('/');
     async function getMovie() {
@@ -22,8 +23,27 @@ function Film() {
         }
     }
 
+    async function getWatchlist() {
+        const req = await fetch('http://localhost:1234/api/watchlist', {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+            }
+        })
+
+        const data = await req.json()
+        if (data.status === 'ok') {
+            setWatchlist(data.watchlist)
+        } else {
+            console.log('ERROR')
+        }
+    }
+
     useEffect(() => {
         getMovie()
+    }, [])
+
+    useEffect(() => {
+        getWatchlist()
     }, [])
 
     async function updateReviews(event) {
@@ -65,12 +85,15 @@ function Film() {
 
         const data = await req.json()
         if (data.status === 'ok') {
+            const newWachlist = []
+            watchlist.forEach(f => f._id != film._id && newWachlist.push(f))
+            newWachlist.length == watchlist.length && newWachlist.push(film)
+            setWatchlist(newWachlist)
             alert(film.title + data.msg)
         } else {
             alert(data.error)
         }
     }
-
     return(
         <div className="page_container">
             <Navbar/>
@@ -107,7 +130,7 @@ function Film() {
                             <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).join(", ")}</p>
                         </div>
                         <div className="info_2">
-                            <p><span onClick={updateWatchlist} className="watchlist_span">+ Watchlist</span></p>
+                            <p><span onClick={updateWatchlist} className="watchlist_span">{watchlist.find(f => f._id == film._id) ? "-" : "+"} Watchlist</span></p>
                             <p id="film_starring_rating">Starring: {film["Starring rating"]}/10</p>
                             <p id="film_imdb_rating">IMDb: {film.rating}/10</p>
                         </div>

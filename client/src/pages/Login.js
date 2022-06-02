@@ -8,7 +8,7 @@ function App() {
 
   const wrongEmail = document.querySelector('.wrong_email')
   const wrongPassword = document.querySelector('.wrong_password')
-  
+
   const googleSuccess = (res) => {
     window.location.href = "/homepage"
     alert("Login with Google successful!")
@@ -39,17 +39,9 @@ function App() {
       wrongPassword.textContent=data.errors.password
     }
     else{
-      console.log("weeeeeeeeeeeeeeeeeeeeee1")
-      //localStorage.setItem('token', data.user)
+      localStorage.setItem('token', data.user)
       window.location.href = "/homepage"
     }
-    /*if (data.user) {
-      localStorage.setItem('token', data.user)
-      alert('Login successful')
-      window.location.href = "/homepage"
-    } else {
-      alert(data.message)
-    }*/
   }
 
   return (

@@ -64,16 +64,30 @@ app.post('/api/login', async (req, res) => {
     })
 
     if (user) {
-
+        moderate = user.email == 'mod@mod.com'
         const token = jwt.sign({
             username: user.username,
-            email: user.email   
+            email: user.email,
+            mod: moderate
         }, secret)
         return res.json({ status: 'ok', user: token })
     } else {
         return res.json({ status: 'error', user: false })
     }
     
+})
+
+app.get('/api/user', async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+
+        return { status: 'ok', user: decoded }
+    } catch (error) {
+        console.log(error)
+        res.json({ status: 'error', error: 'invalid token' })
+    }
 })
 
 app.get('/api/recommended', async (req, res) => {
@@ -173,24 +187,28 @@ app.post('/api/addreview', async (req, res) => {
         res.json({ status: 'error', error: 'invalid token' })
     }
 })
-/*
-app.post('/api/addreview', async (req, res) => {
+
+app.post('/api/mod-banreview', async (req, res) => {
 
     const token = req.headers['x-access-token']
 
     try {
         const decoded = jwt.verify(token, secret)
-        const removeReview = await Movie.updateOne(
+        if(decoded.mod == false) throw ''
+
+        console.log("intended to ban: " + req.body.review)
+        const banReview = await Movie.updateOne(
             { title: req.body.movie },
-            { $pop: { reviews: 1 } })
+            { $pull: { reviews: req.body.review } })
 
         return res.json({ status: 'ok', review: req.body.review })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     }
-})*/
+})
 
 app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')
 })
+

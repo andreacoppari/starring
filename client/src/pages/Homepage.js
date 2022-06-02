@@ -8,6 +8,7 @@ const Homepage = () => {
     const [ watchlist, setWatchlist ] = useState([])
     const [ recommended, setRecommended ] = useState([])
     const [ newFilm, setNewFilm ] = useState([])
+    const [ headerDir, setHeaderDir] = useState(0)
 
     const token = localStorage.getItem('token')
 
@@ -72,17 +73,23 @@ const Homepage = () => {
         }
     }, [])
     
+    function moveHeader(direction) {
+        if (headerDir == 0) {
+            setHeaderDir(direction)
+            setTimeout(() => setHeaderDir(0), 1000)
+        }
+    }
 
     return (
         <div className='page_container'>
             <Navbar/>
             <div>
-                <div className="header_list">
+                <div className={"header_list" + (headerDir != 0 ? headerDir < 0 ? " header_moveleft" : " header_moveright" : '')}>
                     <div className="change_film">
-                        <p><span><i className="fa fa-angle-left"></i></span></p>
+                        <p onClick={e => moveHeader(-1)}><span><i className="fa fa-angle-left"></i></span></p>
                     </div>
                     <div className="change_film">
-                        <p><span><i className="fa fa-angle-right"></i></span></p>
+                        <p onClick={e => moveHeader(1)}><span><i className="fa fa-angle-right"></i></span></p>
                     </div>
                 </div>
                 {token && <div className="film_list">

@@ -259,8 +259,20 @@ p {
     width: 700px;
     text-align: center;
     background-image: url("https://th.bing.com/th/id/OIP.OnuvApigwd1DbvT_Atg4BAHaEK?pid=ImgDet&rs=1");
+    background-position: 700px 0%;
+    background-repeat: repeat-x;
     background-size: 100%;
     box-shadow: 0 4px 6px 0 rgb(0 0 0 / 30%);
+}
+.header_moveleft{
+    animation: x_scroll_700 1s ease-in-out;
+}
+.header_moveright{
+    animation: x_scroll_700 1s reverse ease-in-out;
+}
+@keyframes x_scroll_700 {
+    from {background-position: 0px 0%;}
+    to {background-position: 700px 0%;}
 }
 .change_film{
     margin-top: 130px;

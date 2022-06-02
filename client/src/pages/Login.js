@@ -8,6 +8,16 @@ function App() {
 
   const wrongEmail = document.querySelector('.wrong_email')
   const wrongPassword = document.querySelector('.wrong_password')
+  
+  const googleSuccess = (res) => {
+    window.location.href = "/homepage"
+    alert("Login with Google successful!")
+  }
+
+  const googleFail = (res) => {
+    window.location.href = "/login"
+    alert("Login with Google failed")
+  }
 
   async function loginUser(event) {
     event.preventDefault()

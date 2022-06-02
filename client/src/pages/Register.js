@@ -15,6 +15,16 @@ function App() {
   const emailError = document.querySelector('.email_error')
   const passwordError = document.querySelector('.password_error')
   const passwordRError = document.querySelector('.passwordR_error')
+  
+  const googleSuccess = async (res) => {
+    window.location.href = "/homepage"
+    alert("Login with Google successful!")
+  }
+
+  const googleFail = (res) => {
+    window.location.href = "/login"
+    alert("Login with Google failed")
+  }
 
   async function registerUser(event) {
     event.preventDefault()

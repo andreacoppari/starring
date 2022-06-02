@@ -49,8 +49,9 @@ const Homepage = () => {
             }
         })
 
-        const data = req.json()
+        const data = await req.json()
         if (data.status === 'ok') {
+            console.log(data.watchlist)
             setWatchlist(data.watchlist)
         }
     }
@@ -82,6 +83,19 @@ const Homepage = () => {
                         <p><span><i className="fa fa-angle-right"></i></span></p>
                     </div>
                 </div>
+
+                <div className="film_list">
+                    <div className="film_list_title">
+                        <h3>Watchlist</h3>
+                    </div>
+                    <div className="film_list_content">
+                        {watchlist.map((item, i) => { 
+                                return (
+                                <a key={i} href={"/film/"+`${item.title}`} title={item.title}><img src={item.cover}/></a>
+                                )
+                            })}
+                    </div>
+                </div>
                 
                 <div className="film_list">
                     <div className="film_list_title">
@@ -104,19 +118,6 @@ const Homepage = () => {
                         {newFilm.map((item, i) => { 
                                 return (
                                 <a key={i} href={"/film/"+`${item.title}`} title={item.title}><img src={item.cover}/></a>
-                                )
-                            })}
-                    </div>
-                </div>
-
-                <div className="film_list">
-                    <div className="film_list_title">
-                        <h3>Watchlist</h3>
-                    </div>
-                    <div className="film_list_content">
-                        {watchlist.map((item, i) => { 
-                                return (
-                                <a key={i} href={"/film"+`${item.title}`} title={item.title}><img src={item.cover}/></a>
                                 )
                             })}
                     </div>

@@ -78,9 +78,11 @@ export function Navbar() {
                     <button type="submit"><i className="fa fa-search"></i></button>
                 </form>
                 </div>
-            <a href="/login"><i className="fas fa-user"></i></a>
-            {user.username && <p>{user.username}</p>}
-            {user.mod && <a href="/moderator">Moderator Area</a>}
+            
+            {!user.username && <a href="/login">Login</a>}
+            {!user.username && <a href="/register">Sign-up</a>}
+            {user.mod && <a href="/moderator"><i className="fas fa-user-cog"></i></a>}
+            {user.username && <a href="#"><i className="fa fa-sign-out"></i></a>}
         </div>
     </nav>
     )

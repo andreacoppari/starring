@@ -5,7 +5,7 @@ export function Navbar() {
     const [ user, setUser ] = useState('')
     const [ filmFound, setFilmFound ] = useState([])
     const [ showSearch, setShowSearch] = useState(false)
-    const [ searching, setSearching] = useState(false)
+    const [ searchMovie, setSearchMovie] = useState(null)
     const [ reftime, setReftime] = useState(null)
 
     async function getUser() {
@@ -46,8 +46,8 @@ export function Navbar() {
     }
 
     async function getMovie(target) {
-        setSearching(true)
         const search = target.value
+        setSearchMovie(search)
         
         const data = await fetch("http://localhost:1234/api/search?search="+search, {
             headers: {
@@ -63,7 +63,7 @@ export function Navbar() {
             setFilmFound([])
             console.log('ERROR')
         }
-        setSearching(false)
+        setSearchMovie(search ? "" : null)
     }
 
     async function showSearchHandler(e) { // per permettere ai sottoelementi di essere cliccati senza che si perda il focus
@@ -84,9 +84,9 @@ export function Navbar() {
                     <div className='autocomplete' onFocus={showSearchHandler} onBlur={showSearchHandler}>
                         <input type="text" placeholder="Search" name="search" onChange={e => getMovie(e.target)}/>
 
-                        {showSearch &&
+                        {showSearch && searchMovie !== null &&
                             <div className='autocomplete-items'>
-                                {searching ? <p>Searching...</p> : filmFound.length == 0 && <p>No movie found!</p> }
+                                {searchMovie ? <p>Searching...</p> : filmFound.length == 0 && <p>No movie found!</p> }
                                 {
                                 filmFound.slice(0,3).map((film) => (
                                         <div key={film._id}>

@@ -18,6 +18,8 @@ const cookieParser = require('cookie-parser')
 // da mettere in .env
 const sec = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
 
+let secret = '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'
+
 app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
@@ -161,7 +163,7 @@ app.get('/api/user', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         
         return res.json({ status: 'ok', user: decoded })
     } catch (error) {
@@ -212,7 +214,8 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, sec)
+        //const decoded = jwt.verify(token, sec)
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -236,7 +239,8 @@ app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, sec)
+        //const decoded = jwt.verify(token, sec)
+        const decoded = jwt.verify(token, secret)
         const email = decoded.email
 
         var user = await User.findOne({ email: email })
@@ -294,7 +298,7 @@ app.get('/api/reviews', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
         const reviews = await Review.find({}).sort({'createdAt': -1})

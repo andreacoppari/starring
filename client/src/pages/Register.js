@@ -11,6 +11,11 @@ function App() {
   const [ password, setPassword ] = useState('')
   const [ passwordR, setPasswordR ] = useState('')
 
+  const usernameError = document.querySelector('.username_error')
+  const emailError = document.querySelector('.email_error')
+  const passwordError = document.querySelector('.password_error')
+  const passwordRError = document.querySelector('.passwordR_error')
+
   async function registerUser(event) {
     event.preventDefault()
 
@@ -28,12 +33,14 @@ function App() {
     })
   
     const data = await response.json()
-  
-    if (data.status === 'ok') {
-      history.push('/login')
+    if(data.errors){
+      usernameError.textContent=data.errors.username
+      emailError.textContent=data.errors.email
+      passwordError.textContent=data.errors.password
+      passwordRError.textContent=data.errors.passwordR
     }
-    else {
-      alert(data.message)
+    else{
+      history.push('/login')
     }
   }
 
@@ -55,6 +62,7 @@ function App() {
               type="text"
               placeholder="username"
             />
+            <div className="username_error" ></div>
             <label htmlFor="email"><b>Email</b></label>
             <input
               value={email}
@@ -62,6 +70,7 @@ function App() {
               type="text"
               placeholder="email"
             />
+            <div className="email_error"></div>
             <label htmlFor="password"><b>Password</b></label>
             <input
               value={password}
@@ -69,13 +78,15 @@ function App() {
               type="password"
               placeholder="password"
             />
-            <label htmlFor="passwordR"><b>Repeat Password</b></label>
+            <div className="password_error"></div>
+            <label htmlFor="passwordR"><b>Confirm Password</b></label>
             <input
               value={passwordR}
               onChange={(e) => setPasswordR(e.target.value)}
               type="password"
               placeholder="password"
             />
+            <div className="passwordR_error"></div>
             <label> <input type="checkbox" name="remember" style={{marginBottom: '15px'}}/> Ricordami</label>
             <a href="/login" style={{float: 'right', color: 'inherit'}} title="Accedi con il tuo account">Hai già un account?</a>
             <div className="clearfix">

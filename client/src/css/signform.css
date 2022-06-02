@@ -66,6 +66,36 @@
   .red.darken-1 i{
     margin: 0 5px 0 5px;
   }
+  .username_error{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
+  .email_error{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
+  .password_error{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
+  .passwordR_error{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
+  .wrong_email{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
+  .wrong_password{
+    color:red;
+    top:-18px;
+    position:relative;
+  }
   
   
   

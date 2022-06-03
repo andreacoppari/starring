@@ -9,7 +9,7 @@ const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 const bcrypt = require('bcrypt');
-const cookieParser = require('cookie-parser')
+//const cookieParser = require('cookie-parser')
 
 //mod pw:Moderatore0
 //require('dotenv').config
@@ -18,7 +18,7 @@ const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c
 
 app.use(cors())
 app.use(express.json())
-app.use(cookieParser())
+//app.use(cookieParser())
 
 mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
 

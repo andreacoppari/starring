@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../css/style.css'
 
+
 export function Navbar() {
     const [ user, setUser ] = useState('')
     const [ filmFound, setFilmFound ] = useState([])
@@ -25,6 +26,12 @@ export function Navbar() {
             console.log('ERROR')
         }
     }
+
+    async function logout(e) {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.href = "/homepage"
+      }
 
     useEffect(() => {
         getUser()
@@ -107,7 +114,7 @@ export function Navbar() {
             {!user.username && <a href="/login">Login</a>}
             {!user.username && <a href="/register">Sign-up</a>}
             {user.mod && <a href="/moderator"><i className="fas fa-user-cog"></i></a>}
-            {user.username && <a href="#"><i className="fa fa-sign-out"></i></a>}
+            {user.username && <a href="#" onClick={logout}><i className="fa fa-sign-out"></i></a>}
         </div>
     </nav>
     )

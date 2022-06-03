@@ -13,7 +13,7 @@ function App() {
     window.location.href = "/homepage"
     alert("Login with Google successful!")
   }
-
+  
   const googleFail = (res) => {
     window.location.href = "/login"
     alert("Login with Google failed")
@@ -43,13 +43,6 @@ function App() {
       localStorage.setItem('token', data.user)
       window.location.href = "/homepage"
     }
-    /*if (data.user) {
-      localStorage.setItem('token', data.user)
-
-      window.location.href = "/homepage"
-    } else {
-      alert(data.message)
-    }*/
   }
 
   return (

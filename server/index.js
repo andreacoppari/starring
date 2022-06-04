@@ -300,12 +300,13 @@ app.post('/api/removereviews', async (req, res) => {
                 { $pull: { reviews: review.review } })
             rmUsers.push(rmUser)
 
-            const rmReview = await Review.deleteOne(
-                { _id: review._id })
+            const rmReview = await Review.deleteOne({ $or: [
+                { _id: review._id },
+                { email: review.email, review: review.review } ]})
             rmReviews.push(rmReview)
         }
         
-        return res.json({ status: 'ok', reviews: rmReviews })
+        return res.json({ status: 'ok', reviews: req.body.reviews })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

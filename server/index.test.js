@@ -11,6 +11,11 @@ const token = jwt.sign({
     email: "mod@mod.it",
     mod: 1
 }, secret)
+const testToken = jwt.sign({
+    username: "test",
+    email: "test@google.com",
+    mod: 0
+}, secret)
 
 test('index module should be defined', () => {
     expect(app).toBeDefined();
@@ -346,7 +351,236 @@ test('GET /api/movies/:id with non-existing film should return error message (ex
     })
 })
 
+// Testin 200 to 230 (wachlist, reviews, addreview, removereviews) * * *
+test('POST /api/watchlist updating watchlist while logout', async() => {
+    return request(app)
+    .post('/api/watchlist')
+    .send({
+        watchlist: "Joker"
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'error', error: 'invalid token' })
+    })
+})
 
+test('POST /api/addreview adding review while logout', async() => {
+    return request(app)
+    .post('/api/addreview')
+    .send({
+        movie: "Joker",
+        review: "Hello."
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'error', error: 'invalid token' })
+    })
+})
+
+test('POST /api/watchlist add Joker to watchlit', async() => {
+    return request(app)
+    .post('/api/watchlist')
+    .set('x-access-token', testToken)
+    .send({
+        watchlist: "Joker"
+    })
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', watchlist: 'Joker', msg: ' added to your watchlist.'})
+    })
+})
+
+test('POST /api/watchlist add Aladdin to watchlit', async() => {
+    return request(app)
+    .post('/api/watchlist')
+    .set('x-access-token', testToken)
+    .send({
+        watchlist: "Aladdin"
+    })
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', watchlist: 'Aladdin', msg: ' added to your watchlist.'})
+    })
+})
+
+test('GET /api/watchlist check watchlist has Joker and Aladin', async() => {
+    return request(app)
+    .get('/api/watchlist')
+    .set('x-access-token', testToken)
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"status": "ok", "watchlist": [{"_id": "6287a44ed9c12de99b9357a5", "cover": "https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg", "title": "Joker"}, {"_id": "6287a44ed9c12de99b93582a", "cover": "https://m.media-amazon.com/images/M/MV5BY2Q2NDI1MjUtM2Q5ZS00MTFlLWJiYWEtNTZmNjQ3OGJkZDgxXkEyXkFqcGdeQXVyNTI4MjkwNjA@._V1_SY150_CR0,0,101,150_.jpg", "title": "Aladdin"}]})
+    })
+})
+
+test('POST /api/watchlist remove Aladdin from watchlit', async() => {
+    return request(app)
+    .post('/api/watchlist')
+    .set('x-access-token', testToken)
+    .send({
+        watchlist: "Aladdin"
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', watchlist: 'Aladdin', msg: ' removed from your watchlist.'})
+    })
+})
+
+test('GET /api/watchlist check watchlist has Joker and Aladin', async() => {
+    return request(app)
+    .get('/api/watchlist')
+    .set('x-access-token', testToken)
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"status": "ok", "watchlist": [{"_id": "6287a44ed9c12de99b9357a5", "cover": "https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg", "title": "Joker"}]})
+    })
+})
+
+test('POST /api/addreview adding review to Joker as user test', async() => {
+    return request(app)
+    .post('/api/addreview')
+    .set('x-access-token', testToken)
+    .send({
+        movie: "Joker",
+        review: "This is my first review!"
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', review: "This is my first review!" })
+    })
+})
+
+test('POST /api/addreview adding second review to Joker as user test', async() => {
+    return request(app)
+    .post('/api/addreview')
+    .set('x-access-token', testToken)
+    .send({
+        movie: "Joker",
+        review: "Hello... again."
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'error', error: 'invalid token' })
+    })
+})
+
+test('POST /api/addreview adding review to Aladdin as user test', async() => {
+    return request(app)
+    .post('/api/addreview')
+    .set('x-access-token', testToken)
+    .send({
+        movie: "Aladdin",
+        review: "Hello."
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', review: "Hello." })
+    })
+})
+
+test('GET /api/movies/Joker seeing new reviews of Joker', async() => {
+    return request(app)
+    .get('/api/movies/Joker')
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body.reviews.slice(-1)).toEqual(["This is my first review!"])
+    })
+})
+
+test('GET /api/reviews getting all user reviews as test user', async() => {
+    return request(app)
+    .get('/api/reviews')
+    .set('x-access-token', testToken)
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'error', error: 'invalid token' })
+    })
+})
+
+test('POST /api/removereviews tryng remove "Hello." review as test user', async() => {
+    return request(app)
+    .post('/api/removereviews')
+    .set('x-access-token', testToken)
+    .send({
+        reviews: [{review:"Hello.", movie:"Aladdin", email:"test@google.com"}]
+    })
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'error', error: 'invalid token' })
+    })
+})
+
+// Moderator
+test('GET /api/reviews getting last two user reviews as Moderator', async() => {
+    return request(app)
+    .get('/api/reviews')
+    .set('x-access-token', token)
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body.reviews.slice(-2).map(item => item.review)).toEqual(["This is my first review!", "Hello."])
+    })
+})
+
+test('POST /api/removereviews removing "This is my first review!", "Hello." reviews as Moderator', async() => {
+    return request(app)
+    .post('/api/removereviews')
+    .set('x-access-token', token)
+    .send({
+        reviews: [{review:"Hello.", movie:"Aladdin", email:"test@google.com"},
+                  {review:"This is my first review!", movie:"Joker", email:"test@google.com"}]
+    })
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', reviews: [{review:"Hello.", movie:"Aladdin", email:"test@google.com"}, {review:"This is my first review!", movie:"Joker", email:"test@google.com"}] })
+    })
+})
+/*
+test('GET /api/reviews getting last two user reviews as Moderator', async() => {
+    return request(app)
+    .get('/api/reviews')
+    .set('x-access-token', token)
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body.reviews.slice(-2).map(item => item.review)).toEqual(["This is my first review!", "Hello."])
+    })
+})
+
+test('GET /api/movies/Joker seeing removed reviews of Joker', async() => {
+    return request(app)
+    .get('/api/movies/Joker')
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body.reviews.slice(-1)).toEqual(["This is my first review!"])
+    })
+})
+*/
+
+
+
+// for clean database
+test('POST /api/watchlist remove Joker from watchlit', async() => {
+    return request(app)
+    .post('/api/watchlist')
+    .set('x-access-token', testToken)
+    .send({
+        watchlist: "Joker"
+    })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({ status: 'ok', watchlist: 'Joker', msg: ' removed from your watchlist.'})
+    })
+})
 /*
 describe('GET /api/v1/books', () => {
     let bookSpy; // Moking Book.find method

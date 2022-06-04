@@ -54,7 +54,7 @@ const handleErrors = (err) => {
 
 /*const maxAge = 60 * 60
 const createToken = (id, mod) => {
-    //return jwt.sign({id}, sec, {expisesIn: maxAge});
+    //return jwt.sign({id}, sec, {expiresIn: maxAge});
     return jwt.sign({id, mod}, secret);
 }*/
 
@@ -85,12 +85,17 @@ app.post('/api/register', async (req, res) => {
             email: req.body.email,
             password: req.body.password,
         })
-        //res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
         res.json({ status: 'ok', user: user._id })
     } catch (err) {
         const errors = handleErrors(err);
         res.json({ errors });
     }
+})
+
+app.post('/api/delete', async (req, res) => {
+    const email = req.body.email;
+    await User.findOneAndDelete({email});
+    res.json({ status: 'ok'})
 })
 
 login = async function(email, password){
@@ -114,7 +119,7 @@ app.post('/api/login', async (req, res) => {
             username: user.username,
             email: user.email,
             mod: moderate
-        }, secret)
+        }, secret, {expiresIn: '1h'})
         res.json({ status: 'ok', user: token })
     }
     catch (err) {

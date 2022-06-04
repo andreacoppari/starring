@@ -16,7 +16,7 @@ test('index module should be defined', () => {
     expect(app).toBeDefined();
 });
 // Testing api/register
-test('POST /api/register without username returns error message', async () => {
+test('POST /api/register without username', async () => {
     return request(app)
     .post('/api/register')
     .send({
@@ -30,7 +30,37 @@ test('POST /api/register without username returns error message', async () => {
             //console.log(res.body)
     })
 })
-test('POST /api/register without email returns error message', async () => {
+test('POST /api/register with too short username', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Te",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"The username must be at least 3 characters long","email":"","password":"","passwordR":"","message":"unknown"}})
+            //console.log(res.body)
+    })
+})
+test('POST /api/register with too long username', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "TesterTesterTesterTesterTester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"The username must be a maximum of 24 characters long","email":"","password":"","passwordR":"","message":"unknown"}})
+            //console.log(res.body)
+    })
+})
+test('POST /api/register without email', async () => {
     return request(app)
     .post('/api/register')
     .send({
@@ -41,6 +71,48 @@ test('POST /api/register without email returns error message', async () => {
     .then((res) => {
         if(res.body)
             expect(res.body).toEqual({"errors":{"username":"","email":"An email is required","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/register with email already in use', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "mod@mod.it",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"This email is already registered","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/register with non valid email', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "mod",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"This email is invalid","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/register with too long email', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "modmodmodmodmodmodmod@mod.it",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"The email must be a maximum of 24 characters long","password":"","passwordR":"","message":"unknown"}})
     })
 })
 test('POST /api/register without repeating password', async () => {
@@ -83,34 +155,86 @@ test('POST /api/register with password and password repeat different', async () 
             expect(res.body).toEqual({"errors":{"username":"","email":"","password":"","passwordR":"The passwords must be the same","message":"unknown"}})
     })
 })
-test('POST /api/register with email already in use', async () => {
+test('POST /api/register with non valid password: no uppercase letters', async () => {
     return request(app)
     .post('/api/register')
     .send({
         username: "Tester",
-        password: "Testpassword1",
-        passwordR: "Testpassword1",
+        password: "testpassword1",
+        passwordR: "testpassword1",
         email: "mod@mod.it",
       })
     .then((res) => {
         if(res.body)
-            expect(res.body).toEqual({"errors":{"username":"","email":"This email is already registered","password":"","passwordR":"","message":"unknown"}})
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Password must contain at least one number, one lowercase and one uppercase letter","passwordR":"","message":"unknown"}})
     })
 })
-test('POST /api/register with non valid email', async () => {
+test('POST /api/register with non valid password: no lowercase letters', async () => {
     return request(app)
     .post('/api/register')
     .send({
         username: "Tester",
-        password: "Testpassword1",
-        passwordR: "Testpassword1",
-        email: "mod",
+        password: "TESTPASSWORD1",
+        passwordR: "TESTPASSWORD1",
+        email: "mod@mod.it",
       })
     .then((res) => {
         if(res.body)
-            expect(res.body).toEqual({"errors":{"username":"","email":"This email is invalid","password":"","passwordR":"","message":"unknown"}})
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Password must contain at least one number, one lowercase and one uppercase letter","passwordR":"","message":"unknown"}})
     })
 })
+test('POST /api/register with non valid password: no numbers', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword",
+        passwordR: "Testpassword",
+        email: "mod@mod.it",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Password must contain at least one number, one lowercase and one uppercase letter","passwordR":"","message":"unknown"}})
+    })
+})
+
+test('POST /api/login with unregistered email', async () => {
+    return request(app)
+    .post('/api/login')
+    .send({
+        email: "mod",
+        password: "Testpassword",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"Invalid mail","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/login with wrong password', async () => {
+    return request(app)
+    .post('/api/login')
+    .send({
+        email: "mod@mod.it",
+        password: "Testpassword",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Wrong password","passwordR":"","message":"unknown"}})
+    })
+})
+/*test('POST /api/login with success', async () => {
+    return request(app)
+    .post('/api/login')
+    .send({
+        email: "mod@mod.it",
+        password: "Moderatore0",
+      })
+    .then((res) => {
+        if(res.body){
+            expect(res.body).toEqual({"status":'ok', "user": valore del token})
+        }     
+    })
+})*/
 
 // Testing api/user
 test('GET /api/user without token in header should return error message because no token defined', async () => {

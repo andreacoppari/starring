@@ -222,7 +222,7 @@ test('POST /api/login with wrong password', async () => {
             expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Wrong password","passwordR":"","message":"unknown"}})
     })
 })
-/*test('POST /api/login with success', async () => {
+test('POST /api/login with success', async () => {
     return request(app)
     .post('/api/login')
     .send({
@@ -231,10 +231,10 @@ test('POST /api/login with wrong password', async () => {
       })
     .then((res) => {
         if(res.body){
-            expect(res.body).toEqual({"status":'ok', "user": valore del token})
+            expect(res.body.status).toEqual('ok')
         }     
     })
-})*/
+})
 
 // Testing api/user
 test('GET /api/user without token in header should return error message because no token defined', async () => {

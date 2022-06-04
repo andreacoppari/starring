@@ -202,6 +202,32 @@ test('POST /api/register with non valid password: no numbers', async () => {
             expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Password must contain at least one number, one lowercase and one uppercase letter","passwordR":"","message":"unknown"}})
     })
 })
+test('POST /api/register with success', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "Tester@Tester.it",
+      })
+    .then((res) => {
+        if(res.body)
+        expect(res.body.status).toEqual('ok')
+    })
+})
+test('POST /api/delete', async () => {
+    return request(app)
+    .post('/api/delete')
+    .send({
+        email: "Tester@Tester.it",
+      })
+    .then((res) => {
+        if(res.body){
+            expect(res.body.status).toEqual('ok')
+        }     
+    })
+})
 
 test('POST /api/login with unregistered email', async () => {
     return request(app)
@@ -225,6 +251,19 @@ test('POST /api/login with wrong password', async () => {
     .then((res) => {
         if(res.body)
             expect(res.body).toEqual({"errors":{"username":"","email":"","password":"Wrong password","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/login with success', async () => {
+    return request(app)
+    .post('/api/login')
+    .send({
+        email: "mod@mod.it",
+        password: "Moderatore0",
+      })
+    .then((res) => {
+        if(res.body){
+            expect(res.body.status).toEqual('ok')
+        }     
     })
 })
 test('POST /api/login with success', async () => {

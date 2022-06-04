@@ -162,9 +162,12 @@ app.get('/api/search', async (req, res) => {
     if(req.query.search){
         const exp = new RegExp(req.query.search, 'i')
         const movie = await Movie.find({ $or: [ {'title': exp}, {'genres': exp} ] })
-        return res.json({ status: 'ok', movie: movie })
+        // Check if it found a movie
+        if(movie.length > 0)
+            return res.json({ status: 'ok', movie: movie })
+        return res.json({ status: 'error', error: 'movies not found'})
     } else {
-        return res.json({ status: 'error', error: 'movies not found' })
+        return res.json({ status: 'error', error: 'movies not found'})
     }
 })
 
@@ -313,3 +316,4 @@ app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')
 })
 
+module.exports = app;

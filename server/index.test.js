@@ -5,9 +5,135 @@ const jwt = require('jsonwebtoken')
 
 const app = require('./index')
 
+const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
+const token = jwt.sign({
+    username: "mod",
+    email: "mod@mod.it",
+    mod: 1
+}, secret)
+
 test('index module should be defined', () => {
     expect(app).toBeDefined();
 });
+// Testing api/register
+test('POST /api/register without username returns error message', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"An username is required","email":"","password":"","passwordR":"","message":"unknown"}})
+            //console.log(res.body)
+    })
+})
+test('POST /api/register without email returns error message', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"An email is required","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/register without repeating password', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"","passwordR":"The passwords must be the same","message":"unknown"}})
+    })
+})
+test('POST /api/register without repeating password', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        passwordR: "Testpassword1",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"","passwordR":"The passwords must be the same","message":"unknown"}})
+    })
+})
+test('POST /api/register with password and password repeat different', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword2",
+        email: "test@test.com",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"","password":"","passwordR":"The passwords must be the same","message":"unknown"}})
+    })
+})
+test('POST /api/register with email already in use', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "mod@mod.it",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"This email is already registered","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+test('POST /api/register with non valid email', async () => {
+    return request(app)
+    .post('/api/register')
+    .send({
+        username: "Tester",
+        password: "Testpassword1",
+        passwordR: "Testpassword1",
+        email: "mod",
+      })
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"errors":{"username":"","email":"This email is invalid","password":"","passwordR":"","message":"unknown"}})
+    })
+})
+
+// Testing api/user
+test('GET /api/user without token in header should return error message because no token defined', async () => {
+    return request(app)
+    .get('/api/user')
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"status":"error","error":"invalid token"})
+    })
+})
+test('GET /api/user with token in header should return user information', async () => {
+    return request(app)
+    .get('/api/user')
+    .set('x-access-token', token)
+    .expect(200)
+    .then((res) => {
+        if(res.body){
+            const decoded = jwt.verify(token, secret)
+            expect(res.body).toEqual({"status":'ok', "user": { "username": 'mod', "email": 'mod@mod.it', "mod": 1, "iat":decoded.iat}})
+        }      
+    })
+})
 
 // Testing recommended api
 test('GET /api/recommended should return a list of films based on starring-rating', async () => {
@@ -83,6 +209,16 @@ test('GET /api/movies/:id should return information about film (example Joker)',
     .then((res) => {
         if(res.body)
             expect(res.body).toEqual({"status":"ok","movie":{"_id":"6287a44ed9c12de99b9357a5","title":"Joker","year":1991,"rating":4.6,"Starring rating":10,"genres":["Comedy","Crime"],"cast":["Björn Skifs","Aja Rodas-Evrén","Johan Ulveson","Marie-Chantal Long","Jacob Nordenson","Catherine Hansson","Gert Fylking","Johan Paulsen","P.G. Hylén","Björn Kjellman","Ragnar Ulfung","Peter Panov","Assen Panov","Lars Engström","Arne Rubensson","Fredrik Dolk","Hans Kellerman","Peter Ahlm","Hans Saxinger","Maud Höglund","Anders Esphagen","Margareta Pettersson","Claes Ljungmark","Ali Alibhai","Ann Canvert","Aldi Foddis","Hans O. Sjöberg","Dick Olsson","Victor Kritz-Hedqvist","Pontus Bjuring-Gerlich","Rinkeby Kids","Eric Bibb","Astors 'Pelle' Bellsybus","Lennart Järnstad"],"reviews":["This is Joker seemingly it is the swedish orginal which the joker reboot from 2019 have taken inspiration from. This is one of the best and well executed films in all time and of course they have Björn skifs in the role as Nicke the version of Joker in this universe. This is basically Joker hunted by the italian mafia while fighting nazis","This is a movie that only those who have felt alone and isolated can truly relate to it. You understand the motive and you feel sorry for the character. A lot of people will see this movie and think that it encourages violence. But truly, this movie should encourage each and every one of us to become a better person, treat everyone with respect and make each other feel like they belong in this world, instead of making them feel isolated.","I give him 10 on 10000000000999999999999999 ^9999"],"cover":"https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg"}})
+    })
+})
+
+test('GET /api/movies/:id with non-existing film should return error message (example test)', async() => {
+    return request(app)
+    .get('/api/movies/test')
+    .expect(200)
+    .then((res) => {
+        if(res.body)
+            expect(res.body).toEqual({"status":"ok","movie":null})
     })
 })
 

@@ -1,9 +1,12 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 const request = require('supertest')
 const express = require('express')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
-const app = require('./index')
+const app = require('./index');
+const { afterAll } = require("@jest/globals");
 
 const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
 const token = jwt.sign({
@@ -623,6 +626,12 @@ test('POST /api/watchlist remove Joker from watchlit', async() => {
             expect(res.body).toEqual({ status: 'ok', watchlist: 'Joker', msg: ' removed from your watchlist.'})
     })
 })
+
+afterAll(done => {
+    mongoose.connection.close()
+    done()
+})
+
 /*
 describe('GET /api/v1/books', () => {
     let bookSpy; // Moking Book.find method

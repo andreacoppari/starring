@@ -1,14 +1,11 @@
 install:
 	@cd client/ && npm install
-	@cd server/ && npm install
+	@npm install
 
-client:
-	@cd client/ && npm start
-
-server:
-	@cd server/ && npm run dev
+run:
+	@npm run dev
 	
 test:
-	@cd server/ && npm run test
+	@npm run test
 
-.PHONY: install client server test
+.PHONY: install run test

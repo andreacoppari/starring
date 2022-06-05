@@ -74,7 +74,7 @@ const Homepage = () => {
     }, [])
     
     function moveHeader(direction) {
-        if (headerDir == 0) {
+        if (headerDir === 0) {
             setHeaderDir(direction)
             setTimeout(() => setHeaderDir(0), 1000)
         }
@@ -84,7 +84,7 @@ const Homepage = () => {
         <div className='page_container'>
             <Navbar/>
             <div>
-                <div className={"header_list" + (headerDir != 0 ? headerDir < 0 ? " header_moveleft" : " header_moveright" : '')}>
+                <div className={"header_list" + (headerDir !== 0 ? headerDir < 0 ? " header_moveleft" : " header_moveright" : '')}>
                     <div className="change_film">
                         <p onClick={e => moveHeader(-1)}><span><i className="fa fa-angle-left"></i></span></p>
                     </div>

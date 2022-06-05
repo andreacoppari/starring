@@ -46,8 +46,8 @@ export function Navbar() {
         var index = 0
         movies.forEach(m => {
             index = m.title.search(exp)
-            if (index == 0) inizia.push(m)
-            else if (m.title[index-1] == ' ') contiene_inizia.push(m)
+            if (index === 0) inizia.push(m)
+            else if (m.title[index-1] === ' ') contiene_inizia.push(m)
             else if (index >= 0) contiene.push(m)
             else altro.push(m)
         });
@@ -66,7 +66,7 @@ export function Navbar() {
         })
         const res = await data.json()
         
-        if (search != target.value) return
+        if (search !== target.value) return
         if (res.status === 'ok') {
             setFilmFound(sortMovies(search, res.movie))
         } else {
@@ -77,10 +77,10 @@ export function Navbar() {
     }
 
     async function showSearchHandler(e) { // per permettere ai sottoelementi di essere cliccati senza che si perda il focus
-        if (e.type == 'focus') {
+        if (e.type === 'focus') {
             setShowSearch(true)
             clearTimeout(reftime)
-        } else if(e.type == 'blur') {
+        } else if(e.type === 'blur') {
             setReftime(setTimeout(() => setShowSearch(false), 0))
         }
     }
@@ -96,7 +96,7 @@ export function Navbar() {
 
                         {showSearch && searchMovie !== null &&
                             <div className='autocomplete-items'>
-                                {searchMovie ? <p>Searching...</p> : filmFound.length == 0 && <p>No movie found!</p> }
+                                {searchMovie ? <p>Searching...</p> : filmFound.length === 0 && <p>No movie found!</p> }
                                 {
                                 filmFound.slice(0,3).map((film) => (
                                         <div key={film._id}>

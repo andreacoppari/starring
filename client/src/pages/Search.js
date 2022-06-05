@@ -12,8 +12,8 @@ const Search = () => {
         var index = 0
         movies.forEach(m => {
             index = m.title.search(exp)
-            if (index == 0) inizia.push(m)
-            else if (m.title[index-1] == ' ') contiene_inizia.push(m)
+            if (index === 0) inizia.push(m)
+            else if (m.title[index-1] === ' ') contiene_inizia.push(m)
             else contiene.push(m)
         });
         return inizia.concat(contiene_inizia, contiene)

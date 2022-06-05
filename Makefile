@@ -8,4 +8,4 @@ client:
 server:
 	@cd server/ && npm run dev
 
-.PHONY install client server
+.PHONY: install client server

@@ -66,7 +66,7 @@ function Moderator() {
         const exp = new RegExp(str, "i")
         
         reviews.forEach(review => {
-            if ((review.selected || false) != select) {
+            if ((review.selected || false) !== select) {
                 if (exp.test(review.review)) {
                     review.selected = select
                     select? newSelected++ : newSelected--

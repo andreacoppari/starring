@@ -14,11 +14,7 @@ const path = require('path')
 const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
 
 // deploy
-__dirname = path.resolve()
-app.use(express.static(path.join(__dirname, '/client/build')))
-app.get("*", (req,res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-})
+app.use(express.static('client/build'))
 
 app.use(cors())
 app.use(express.json())

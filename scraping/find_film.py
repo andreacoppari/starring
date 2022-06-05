@@ -5,6 +5,6 @@ def get_id(movie):
         data = json.load(m)
 
         for mov in data:
-            if movie.lower() == mov["title"].lower():
+            if movie.lower() === mov["title"].lower():
                 return mov['id'][2:]
     return "0"

@@ -9,7 +9,7 @@ with open("data/title.akas.tsv", "r", encoding="utf8") as tt:
         print("[*] Parsing tsv dataset")
         tt_file = csv.reader(tt, delimiter="\t")
         for line in tt_file:
-            if line[-1] == "1":
+            if line[-1] === "1":
                 file.write(f"{line[0]} {line[2]}\n")
         print("[+] Done!")
 

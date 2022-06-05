@@ -90,8 +90,8 @@ function Film() {
         const data = await req.json()
         if (data.status === 'ok') {
             const newWachlist = []
-            watchlist.forEach(f => f._id != film._id && newWachlist.push(f))
-            newWachlist.length == watchlist.length && newWachlist.push(film)
+            watchlist.forEach(f => f._id !== film._id && newWachlist.push(f))
+            newWachlist.length === watchlist.length && newWachlist.push(film)
             setWatchlist(newWachlist)
             alert(film.title + data.msg)
         } else {
@@ -134,7 +134,7 @@ function Film() {
                             <p id="film_cast"><b>Cast</b>: {film.cast?.slice(0, 8).join(", ")}</p>
                         </div>
                         <div className="info_2">
-                            <p><span onClick={updateWatchlist} className="watchlist_span">{watchlist.find(f => f._id == film._id) ? "-" : "+"} Watchlist</span></p>
+                            <p><span onClick={updateWatchlist} className="watchlist_span">{watchlist.find(f => f._id === film._id) ? "-" : "+"} Watchlist</span></p>
                             <p id="film_starring_rating">Starring: {film["Starring rating"]}/10</p>
                             <p id="film_imdb_rating">IMDb: {film.rating}/10</p>
                         </div>

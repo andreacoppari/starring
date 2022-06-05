@@ -136,7 +136,7 @@ app.post('/api/login', async (req, res) => {
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split('')[1]
-    if(token == null) return res.sendStatus(401)
+    if(token === null) return res.sendStatus(401)
     jwt.verify(token, sec, (err,user) => {
         if(err) return res.sendStatus(403)
         req.user = user
@@ -202,7 +202,7 @@ app.get('/api/watchlist', async (req, res) => {
         var watchlist = []
         // Find every movie which has the same title as the movies inside user.watchlist and put them inside array watchlist
         for(let i=0; i<user.watchlist.length; i++){
-            watchlist.push(movies.find(element => element.title == user.watchlist[i]))
+            watchlist.push(movies.find(element => element.title === user.watchlist[i]))
         }
         // Return watchlist
         return res.json({ status: 'ok', watchlist: watchlist})
@@ -215,7 +215,7 @@ app.get('/api/watchlist', async (req, res) => {
 // Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
-    if(token == "null"){
+    if(token === "null"){
         return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
     }
     try {
@@ -246,7 +246,7 @@ app.post('/api/watchlist', async (req, res) => {
 
 app.post('/api/addreview', async (req, res) => {
     const token = req.headers['x-access-token']
-    if(token == "null")
+    if(token === "null")
         return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
     try {
         const decoded = jwt.verify(token, sec)
@@ -278,7 +278,7 @@ app.get('/api/reviews', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, sec)
-        if(decoded.mod == false) throw ''
+        if(decoded.mod === false) throw ''
 
         const reviews = await Review.find({})
         
@@ -294,7 +294,7 @@ app.post('/api/removereviews', async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, sec)
-        if(decoded.mod == false) throw ''
+        if(decoded.mod === false) throw ''
 
         const rmMovies = []
         const rmUsers = []

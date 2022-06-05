@@ -20,7 +20,7 @@ with open("./data/movie_dataset.json", "w", encoding="utf8") as dataset:
 
         print(f"[*] Getting movie informations about {m['title']}")
         movieID = get_id(m["title"])
-        if movieID == "0": print("[-] ABORTED! Movie not found!");continue
+        if movieID === "0": print("[-] ABORTED! Movie not found!");continue
         movie = ia.get_movie(movieID)
         ia.update(movie, ['reviews'])
         print("[+] Done!")

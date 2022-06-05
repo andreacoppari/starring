@@ -9,7 +9,7 @@ const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 const bcrypt = require('bcrypt');
-const cookieParser = require('cookie-parser')
+//const cookieParser = require('cookie-parser')
 
 //import {BrowserRouter, Routes, Route} from 'react-router-dom';
 //const useCookie = require('react-cookie')
@@ -20,7 +20,7 @@ const sec = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c646
 
 app.use(cors())
 app.use(express.json())
-app.use(cookieParser())
+//app.use(cookieParser())
 
 mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
 
@@ -101,6 +101,12 @@ app.post('/api/register', async (req, res) => {
     }
 })
 
+app.post('/api/delete', async (req, res) => {
+    const email = req.body.email;
+    await User.findOneAndDelete({email});
+    res.json({ status: 'ok'})
+})
+
 login = async function(email, password){
     const user = await User.findOne({email});
     if(user){
@@ -166,10 +172,16 @@ app.get('/api/newfilm', async (req, res) => {
 app.get('/api/search', async (req, res) => {
     if(req.query.search){
         const exp = new RegExp(req.query.search, 'i')
-        const movie = await Movie.find({ $or: [ {'title': exp}, {'genres': exp} ] })
-        return res.json({ status: 'ok', movie: movie })
+        const movie = await Movie.find(
+            { $or: [ {'title': exp}, {'genres': exp} ] },
+            { reviews:0 }
+            )
+        // Check if it found a movie
+        if(movie.length > 0)
+            return res.json({ status: 'ok', movie: movie })
+        return res.json({ status: 'error', error: 'movies not found'})
     } else {
-        return res.json({ status: 'error', error: 'movies not found' })
+        return res.json({ status: 'error', error: 'movies not found'})
     }
 })
 
@@ -270,9 +282,9 @@ app.get('/api/reviews', async (req, res) => {
         const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
-        const reviews = await Review.find({}).sort({'createdAt': -1})
+        const reviews = await Review.find({})
         
-        return res.json({ status: 'ok', reviews: reviews })
+        return res.json({ status: 'ok', reviews: reviews.reverse() })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -303,12 +315,13 @@ app.post('/api/removereviews', async (req, res) => {
                 { $pull: { reviews: review.review } })
             rmUsers.push(rmUser)
 
-            const rmReview = await Review.deleteOne(
-                { _id: review._id })
+            const rmReview = await Review.deleteOne({ $or: [
+                { _id: review._id },
+                { email: review.email, review: review.review } ]})
             rmReviews.push(rmReview)
         }
         
-        return res.json({ status: 'ok', reviews: rmReviews })
+        return res.json({ status: 'ok', reviews: req.body.reviews })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -319,3 +332,4 @@ app.listen(1234, () => {
     console.log('Starring is online on http://localhost:1234')
 })
 
+module.exports = app;

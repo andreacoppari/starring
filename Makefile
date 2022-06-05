@@ -7,5 +7,8 @@ client:
 
 server:
 	@cd server/ && npm run dev
+	
+test:
+	@cd server/ && npm run test
 
 .PHONY: install client server

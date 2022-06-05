@@ -8,11 +8,18 @@ Nelle prime implementazioni la piattaforma considera solo le recensioni valutate
 
 Starring è stata deployata tramite Heroku, è attualmente online all'indirizzo [http://starring.herokuapp.com](http://starring.herokuapp.com).
 
-Per provarla in locale invece, clonare il repository e lanciare l'applicazione web in ambiente di development:
+Per provarla in locale invece, clonare il repository e lanciare:
 
 ```bash
-npm i
-npm run dev
+make install
+```
+Successivamente in due terminali diversi lanciare dalla cartella starring in comandi:
+```bash
+make client
+```
+e
+```bash
+make server
 ```
 L'applicazione sarà accessibile tramite [http://localhost:1234](http://localhost:1234).
 

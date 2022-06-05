@@ -356,3 +356,6 @@ MigrationBackup/
 ./scraping/model/
 ./scraping/.venv/
 ./scraping/__pycache__/
+
+# frontend build
+./client/build/

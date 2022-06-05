@@ -1,2 +1,2 @@
 heroku ps:scale web=1
-web: npm start
+web: node server/index.js

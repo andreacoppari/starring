@@ -9,11 +9,16 @@ const Review = require('./models/Review')
 const jwt = require('jsonwebtoken')
 const { query } = require('express')
 const bcrypt = require('bcrypt');
+const path = require('path')
 
-//mod pw:Moderatore0
-//require('dotenv').config
-// da mettere in .env
 const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
+
+// deploy
+__dirname = path.resolve()
+app.use(express.static(path.join(__dirname, '/client/build')))
+app.get("*", (req,res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+})
 
 app.use(cors())
 app.use(express.json())
@@ -308,6 +313,6 @@ app.post('/api/removereviews', async (req, res) => {
 })
 
 app.listen(1234, () => {
-    console.log('Starring is online on http://localhost:1234')
+    console.log('Starring is online on port 1234')
 })
 

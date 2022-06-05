@@ -9,16 +9,6 @@ function App() {
   const wrongEmail = document.querySelector('.wrong_email')
   const wrongPassword = document.querySelector('.wrong_password')
 
-  const googleSuccess = (res) => {
-    window.location.href = "/homepage"
-    alert("Login with Google successful!")
-  }
-  
-  const googleFail = (res) => {
-    window.location.href = "/login"
-    alert("Login with Google failed")
-  }
-
   async function loginUser(event) {
     event.preventDefault()
 
@@ -39,10 +29,16 @@ function App() {
       wrongPassword.textContent=data.errors.password
     }
     else{
-
-      localStorage.setItem('token', data.user)
+      console.log("weeeeeeeeeeeeeeeeeeeeee1")
+      //localStorage.setItem('token', data.user)
       window.location.href = "/homepage"
     }
+    /*if (data.user) {
+      localStorage.setItem('token', data.user)
+      window.location.href = "/homepage"
+    } else {
+      alert(data.message)
+    }*/
   }
 
   return (

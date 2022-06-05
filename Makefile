@@ -5,4 +5,7 @@ install:
 run:
 	@npm run dev
 
-.PHONY: install client server
+test:
+	@npm run test
+
+.PHONY: install run test

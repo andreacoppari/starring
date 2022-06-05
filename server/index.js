@@ -11,13 +11,14 @@ const { query } = require('express')
 const bcrypt = require('bcrypt');
 const path = require('path')
 
-const secret = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
+const sec = '911284b06459b85fb9d285183b10de52f16a871f83f2a174a230297106ab264c6467a97503cad712e5f6c81268bc5cb3773b92af74eb371999e23c1f823eb8cf'
 
 // deploy
 app.use(express.static('client/build'))
 
 app.use(cors())
 app.use(express.json())
+//app.use(cookieParser())
 
 mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
 
@@ -32,30 +33,35 @@ const handleErrors = (err) => {
             errors[properties.path] = properties.message;
         });
     }
+
     else if(err.message === 'weak password'){
         errors.password='Password must contain at least one number, one lowercase and one uppercase letter'
     }
+
     //duplicate error code
     else if (err.code === 11000){
         errors.email = 'This email is already registered';
     }
+
     else if(err.message === 'WP'){
         errors.password='Wrong password'
     }
+
     else if(err.message === 'IE'){
         errors.email='Invalid mail'
     }
+
     else if(err.message === 'different passwords'){
         errors.passwordR = 'The passwords must be the same';
     }
     return errors;
 }
 
-/*const maxAge = 60 * 60
-const createToken = (id, mod) => {
+const maxAge = 60 * 60
+const createToken = (id) => {
     //return jwt.sign({id}, sec, {expisesIn: maxAge});
-    return jwt.sign({id, mod}, secret);
-}*/
+    return jwt.sign({id}, sec);
+}
 
 app.post('/api/register', async (req, res) => {
     try {
@@ -76,7 +82,7 @@ app.post('/api/register', async (req, res) => {
             }
         }
         if (cont < 111){
-            throw Error('weak password');     
+            throw new SyntaxError('weak password');     
         }
         
         const user = await User.create({
@@ -84,12 +90,19 @@ app.post('/api/register', async (req, res) => {
             email: req.body.email,
             password: req.body.password,
         })
-        //res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        /*const token = createToken(user._id)
+        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})*/
         res.json({ status: 'ok', user: user._id })
     } catch (err) {
         const errors = handleErrors(err);
         res.json({ errors });
     }
+})
+
+app.post('/api/delete', async (req, res) => {
+    const email = req.body.email;
+    await User.findOneAndDelete({email});
+    res.json({ status: 'ok'})
 })
 
 login = async function(email, password){
@@ -108,32 +121,29 @@ app.post('/api/login', async (req, res) => {
     const {email, password} = req.body;
     try{
         const user = await login(email, password);
-        moderate = user.email == 'mod@mod.it'
-        const token = jwt.sign({
-            username: user.username,
-            email: user.email,
-            mod: moderate
-        }, secret)
-        res.json({ status: 'ok', user: token })
+        const token = createToken(user._id)
+        console.log("weeeeeeeeeeeeeeeeeeeeee3")
+        //res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        res.cookie('jwt', token)
+        res.json({ status: 'ok', user: user._id })
     }
     catch (err) {
         const errors = handleErrors(err);
         res.json({ errors });
     }
 })
+/*
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split('')[1]
+    if(token == null) return res.sendStatus(401)
+    jwt.verify(token, sec, (err,user) => {
+        if(err) return res.sendStatus(403)
+        req.user = user
+        next()
+    })
+}*/
 
-app.get('/api/user', async (req, res) => {
-    const token = req.headers['x-access-token']
-
-    try {
-        const decoded = jwt.verify(token, secret)
-        
-        return res.json({ status: 'ok', user: decoded })
-    } catch (error) {
-        console.log(error)
-        res.json({ status: 'error', error: 'invalid token' })
-    }
-})
 
 app.get('/api/recommended', async (req, res) => {
     const movies = await Movie.find({}, {title:1, cover:1}).limit(15).sort({'Starring rating': -1})
@@ -160,10 +170,16 @@ app.get('/api/newfilm', async (req, res) => {
 app.get('/api/search', async (req, res) => {
     if(req.query.search){
         const exp = new RegExp(req.query.search, 'i')
-        const movie = await Movie.find({ $or: [ {'title': exp}, {'genres': exp} ] })
-        return res.json({ status: 'ok', movie: movie })
+        const movie = await Movie.find(
+            { $or: [ {'title': exp}, {'genres': exp} ] },
+            { reviews:0 }
+            )
+        // Check if it found a movie
+        if(movie.length > 0)
+            return res.json({ status: 'ok', movie: movie })
+        return res.json({ status: 'error', error: 'movies not found'})
     } else {
-        return res.json({ status: 'error', error: 'movies not found' })
+        return res.json({ status: 'error', error: 'movies not found'})
     }
 })
 
@@ -177,7 +193,7 @@ app.get('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, sec)
         const email = decoded.email
         const user = await User.findOne({ email: email })
 
@@ -196,13 +212,14 @@ app.get('/api/watchlist', async (req, res) => {
     }
 })
 
+// Per il futuro ;)
 app.post('/api/watchlist', async (req, res) => {
     const token = req.headers['x-access-token']
     if(token == "null"){
         return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
     }
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, sec)
         const email = decoded.email
 
         var user = await User.findOne({ email: email })
@@ -232,7 +249,7 @@ app.post('/api/addreview', async (req, res) => {
     if(token == "null")
         return res.json({ status: 'error', error: "Devi essere loggato per usare la watchlist!" })
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, sec)
         const newReview = await Review.create(
             {
                 movie: req.body.movie,
@@ -260,12 +277,12 @@ app.get('/api/reviews', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, sec)
         if(decoded.mod == false) throw ''
 
-        const reviews = await Review.find({}).sort({'createdAt': -1})
+        const reviews = await Review.find({})
         
-        return res.json({ status: 'ok', reviews: reviews })
+        return res.json({ status: 'ok', reviews: reviews.reverse() })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -276,7 +293,7 @@ app.post('/api/removereviews', async (req, res) => {
     const token = req.headers['x-access-token']
 
     try {
-        const decoded = jwt.verify(token, secret)
+        const decoded = jwt.verify(token, sec)
         if(decoded.mod == false) throw ''
 
         const rmMovies = []
@@ -296,12 +313,13 @@ app.post('/api/removereviews', async (req, res) => {
                 { $pull: { reviews: review.review } })
             rmUsers.push(rmUser)
 
-            const rmReview = await Review.deleteOne(
-                { _id: review._id })
+            const rmReview = await Review.deleteOne({ $or: [
+                { _id: review._id },
+                { email: review.email, review: review.review } ]})
             rmReviews.push(rmReview)
         }
         
-        return res.json({ status: 'ok', reviews: rmReviews })
+        return res.json({ status: 'ok', reviews: req.body.reviews })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
@@ -312,3 +330,4 @@ app.listen(1234, () => {
     console.log('Starring is online on port 1234')
 })
 
+module.exports = app;

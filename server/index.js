@@ -166,7 +166,10 @@ app.get('/api/newfilm', async (req, res) => {
 app.get('/api/search', async (req, res) => {
     if(req.query.search){
         const exp = new RegExp(req.query.search, 'i')
-        const movie = await Movie.find({ $or: [ {'title': exp}, {'genres': exp} ] })
+        const movie = await Movie.find(
+            { $or: [ {'title': exp}, {'genres': exp} ] },
+            { reviews:0 }
+            )
         // Check if it found a movie
         if(movie.length > 0)
             return res.json({ status: 'ok', movie: movie })
@@ -272,9 +275,9 @@ app.get('/api/reviews', async (req, res) => {
         const decoded = jwt.verify(token, secret)
         if(decoded.mod == false) throw ''
 
-        const reviews = await Review.find({}).sort({'createdAt': -1})
+        const reviews = await Review.find({})
         
-        return res.json({ status: 'ok', reviews: reviews })
+        return res.json({ status: 'ok', reviews: reviews.reverse() })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })

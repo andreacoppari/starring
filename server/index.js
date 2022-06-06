@@ -397,8 +397,8 @@ app.post('/api/removereviews', async (req, res) => {
     }
 })
 
-app.listen(1234, () => {
-    console.log('Starring is online on http://localhost:1234')
+app.listen(process.env.PORT || 1234, () => {
+    console.log('Starring is online')
 })
 
 module.exports = app;

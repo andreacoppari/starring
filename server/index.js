@@ -147,7 +147,7 @@ app.post('/api/register', async (req, res) => {
         if (cont < 111){
             throw Error('weak password');     
         }
-        //autenticazione con Google (passaggio 4)
+        //autenticazione con Google (passaggio 4.1)
         /*if (req.body.password.length<8){
             throw Error('short password');
         }*/
@@ -173,6 +173,10 @@ app.post('/api/delete', async (req, res) => {
 login = async function(email, password){
     const user = await User.findOne({email});
     if(user){
+        //autenticazione con Google (passaggio 4.2)
+        /*if (password.length<8){
+            throw Error('short password');
+        }*/
         const auth = await bcrypt.compare(password, user.password);
         if(auth){
             return user;

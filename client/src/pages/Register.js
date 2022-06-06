@@ -16,6 +16,27 @@ function App() {
   const passwordError = document.querySelector('.password_error')
   const passwordRError = document.querySelector('.passwordR_error')
 
+  //autenticazione con Google (passaggio 8)
+  /*
+  async function googleAuth(e) {
+    const data = await fetch("http://localhost:1234/api/auth/google", {
+      headers: {
+        'Content-type': 'application/json',
+      }
+    })
+    const res = await data.json()
+    if (res.status === 'ok') {
+      localStorage.setItem('token', data.token)
+      window.location.href = "/homepage"
+      alert("Login with Google successful!")
+    }
+    else{
+      window.location.href = "/login"
+      alert("Login with Google failed")
+    }
+  }
+  */
+
   async function registerUser(event) {
     event.preventDefault()
 
@@ -43,6 +64,9 @@ function App() {
       history.push('/login')
     }
   }
+
+  //autenticazione con Google (passaggio 9)
+  // in <div className="auth_google"> sostituire il campo: href="/auth/google" con: onClick={googleAuth}
 
   return (
     <div className='page_container'>

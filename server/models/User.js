@@ -19,6 +19,8 @@ const User = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'A password is required'],
+        //autenticazione con Google (passaggio 5)
+        //commentare la riga sottostabte (minlenght), il controllo è stato trasferito in index.js
         minlength: [8, 'The password must be at least 8 characters long'],
         maxlength: [24, 'The password must be a maximum of 24 characters long']
     },

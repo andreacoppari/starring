@@ -9,6 +9,27 @@ function App() {
   const wrongEmail = document.querySelector('.wrong_email')
   const wrongPassword = document.querySelector('.wrong_password')
 
+  //autenticazione con Google (passaggio 6)
+  /*
+  async function googleAuth(e) {
+    const data = await fetch("http://localhost:1234/api/auth/google", {
+      headers: {
+        'Content-type': 'application/json',
+      }
+    })
+    const res = await data.json()
+    if (res.status === 'ok') {
+      localStorage.setItem('token', data.token)
+      window.location.href = "/homepage"
+      alert("Login with Google successful!")
+    }
+    else{
+      window.location.href = "/login"
+      alert("Login with Google failed")
+    }
+  }
+  */
+
   async function loginUser(event) {
     event.preventDefault()
 
@@ -34,6 +55,8 @@ function App() {
       window.location.href = "/homepage"
     }
   }
+  //autenticazione con Google (passaggio 7)
+  // in <div className="auth_google"> sostituire il campo: href="/auth/google" con: onClick={googleAuth}
 
   return (
     <div className="page_container">

@@ -10,6 +10,19 @@ const jwt = require('jsonwebtoken')
 const { query } = require('express')
 const bcrypt = require('bcrypt');
 
+//Per autenticazione con google: disponibile solo se l'applicazione gira su un server con origine sicura (verificata https)
+//Ci sono 9 passaggi per attivarla (4 in index.js) (1 in user.js) (2 in login.js) (2 in register.js)
+
+//autenticazione con Google (passaggio 1)
+//installare i seguenti pacchetti
+/*
+const passport = require('passport');
+const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+
+const GOOGLE_CLIENT_ID ='505662223204-ld701cti7c4h4mu136fnosrucj33hfgq.apps.googleusercontent.com'
+const GOOGLE_CLIENT_SECRET = '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'
+*/
+
 //mod pw:Moderatore0
 //require('dotenv').config
 // da mettere in .env
@@ -19,6 +32,59 @@ app.use(cors())
 app.use(express.json())
 
 mongoose.connect('mongodb+srv://starring-admin:§T4rr1ng@starring.7dedo.mongodb.net/test')
+
+//autenticazione con Google (passaggio 2)
+/*
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/google/callback",
+    passReqToCallback: true
+  },
+  async function(req, accessToken, refreshToken, profile, done) {
+    const username= `${profile.name.giveName} ${profile.name.familyName}`
+    const email= profile.emails[0].value
+    const pw = "UP"
+    var user = await User.findOne({email});
+    if(!user){
+      user = await User.create({
+          username: username,
+          email: email,
+          password: pw,
+      }).catch((err)=>{
+          console.log("Error with Google:",err);
+          done(err, null);
+      })
+    }
+    if(user){
+        moderate = user.email == 'mod@mod.it'
+        const token = jwt.sign({
+            username: user.username,
+            email: user.email,
+            mod: moderate
+        }, secret)
+        res.json({ status: 'ok', token: token })
+    }
+    res.json({ status: 'error'})
+}
+));
+
+app.get('/api/auth/google',(req,res)=>{
+    const data = passport.authenticate('google', {scope: ['email', 'profile']})
+    const resp = data.json()
+    if (resp.status === 'ok'){
+        resp.json({ status: 'ok', user: res.token })
+    }
+    resp.json({ status: 'error', error: 'No user available' })
+})
+
+app.get('/gooogle/callback',
+    passport.authenticate('google',{
+        successRedirect: '/homepage',
+        failureRedirect: '/login'
+    })
+)
+*/
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
@@ -34,6 +100,10 @@ const handleErrors = (err) => {
     else if(err.message === 'weak password'){
         errors.password='Password must contain at least one number, one lowercase and one uppercase letter'
     }
+    //autenticazione con Google (passaggio 3)
+    /*else if(err.message === 'short password'){
+        errors.password='The password must be at least 8 characters long'
+    }*/
     //duplicate error code
     else if (err.code === 11000){
         errors.email = 'This email is already registered';
@@ -77,6 +147,10 @@ app.post('/api/register', async (req, res) => {
         if (cont < 111){
             throw Error('weak password');     
         }
+        //autenticazione con Google (passaggio 4)
+        /*if (req.body.password.length<8){
+            throw Error('short password');
+        }*/
         
         const user = await User.create({
             username: req.body.username,

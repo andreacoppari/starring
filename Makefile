@@ -1,9 +1,12 @@
 install:
 	@cd client/ && npm install
-	@npm install
+	@cd server/ && npm install
 
-run:
-	@npm run dev
+client:
+	@cd client/ && npm start
+
+server:
+	@cd server/ && npm run dev
 	
 test:
 	@npm run test

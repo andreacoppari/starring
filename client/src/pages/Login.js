@@ -12,7 +12,7 @@ function App() {
   //autenticazione con Google (passaggio 6)
   /*
   async function googleAuth(e) {
-    const data = await fetch("http://localhost:1234/api/auth/google", {
+    const data = await fetch("/api/auth/google", {
       headers: {
         'Content-type': 'application/json',
       }
@@ -33,7 +33,7 @@ function App() {
   async function loginUser(event) {
     event.preventDefault()
 
-    const response = await fetch("http://localhost:1234/api/login", {
+    const response = await fetch(`https://starring-server.herokuapp.com/api/login`, {
       method: "POST",
       headers: {
         'Content-type': 'application/json',

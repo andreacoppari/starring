@@ -13,7 +13,7 @@ const Homepage = () => {
     const token = localStorage.getItem('token')
 
     async function getRecommended() {
-        const data = await fetch("http://localhost:1234/api/recommended", {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/recommended`, {
             headers: {
                 'Content-type': 'application/json',
             }
@@ -27,7 +27,7 @@ const Homepage = () => {
     }
 
     async function getNewFilm() {
-        const data = await fetch("http://localhost:1234/api/newfilm", {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/newfilm`, {
             headers: {
                 'Content-type': 'application/json',
             }
@@ -46,7 +46,7 @@ const Homepage = () => {
     }, [])
 
     async function populateWatchlist() {
-        const req = await fetch('http://localhost:1234/api/watchlist', {
+        const req = await fetch(`https://starring-server.herokuapp.com/api/watchlist`, {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
             }

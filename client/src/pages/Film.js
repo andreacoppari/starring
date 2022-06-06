@@ -10,7 +10,7 @@ function Film() {
 
     var pathArray = window.location.pathname.split('/');
     async function getMovie() {
-        const data = await fetch("http://localhost:1234/api/movies/"+pathArray[2], {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/movies/`+pathArray[2], {
             headers: {
                 'Content-type': 'application/json',
             }
@@ -25,7 +25,7 @@ function Film() {
     }
 
     async function getWatchlist() {
-        const req = await fetch('http://localhost:1234/api/watchlist', {
+        const req = await fetch(`https://starring-server.herokuapp.com/api/watchlist`, {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
             }
@@ -50,7 +50,7 @@ function Film() {
     async function updateReviews(event) {
         event.preventDefault()
 
-        const req = await fetch('http://localhost:1234/api/addreview', {
+        const req = await fetch(`https://starring-server.herokuapp.com/api/addreview`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ function Film() {
     async function updateWatchlist(event) {
         event.preventDefault()
 
-        const req = await fetch('http://localhost:1234/api/watchlist', {
+        const req = await fetch(`https://starring-server.herokuapp.com/api/watchlist`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

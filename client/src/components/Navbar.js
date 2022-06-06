@@ -12,7 +12,7 @@ export function Navbar() {
     async function getUser() {
         if(localStorage.getItem('token') == null) return
         
-        const data = await fetch("http://localhost:1234/api/user", {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/user`, {
             headers: {
                 'Content-type': 'application/json',
                 'x-access-token': localStorage.getItem('token'),
@@ -59,7 +59,7 @@ export function Navbar() {
         setSearchMovie(search)
         setFilmFound(sortMovies(search, filmFound))
         
-        const data = await fetch("http://localhost:1234/api/search?search="+search, {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/search?search=${search}`, {
             headers: {
                 'Content-type': 'application/json',
             }

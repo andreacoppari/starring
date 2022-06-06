@@ -6,7 +6,7 @@ function Moderator() {
     const [ selected, setSelected ] = useState(0)
 
     async function getReviews() {
-        const data = await fetch("http://localhost:1234/api/reviews", {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/reviews`, {
             headers: {
                 'Content-type': 'application/json',
                 'x-access-token': localStorage.getItem('token'),
@@ -33,7 +33,7 @@ function Moderator() {
         const leave = []
         reviews.forEach(review => (review.selected ? remove : leave).push(review));
         
-        const req = await fetch('http://localhost:1234/api/removereviews', {
+        const req = await fetch(`https://starring-server.herokuapp.com/api/removereviews`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

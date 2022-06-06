@@ -22,7 +22,7 @@ const Search = () => {
     var url = new URL(window.location.href);
     var search = url.searchParams.get("search");
     async function getMovie() {
-        const data = await fetch("http://localhost:1234/api/search?search="+search, {
+        const data = await fetch(`https://starring-server.herokuapp.com/api/search?search=`+search, {
             headers: {
                 'Content-type': 'application/json',
             }

@@ -4,11 +4,8 @@ install:
 
 client:
 	@cd client/ && npm start
-
-server:
-	@cd server/ && npm run dev
 	
 test:
 	@npm run test
 
-.PHONY: install run test
+.PHONY: install client test

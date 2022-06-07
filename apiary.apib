@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://localhost:1234
+HOST: https://starring-server.herokuapp.com/
 
 # Starring
 
@@ -8,13 +8,49 @@ Sotto la lista di API del primo sprint.
 # /api/register
 ## Register new user [POST]
 Create a new user
++ Request (application/json)
+    
+    + Attributes
+        + username: Nome utente account
+        + email: Email dell'account
+        + password: Password dell'account
+        + passwordR: Ripeti password
+
+    + Body
+
+            {
+              "username": "",
+              "email": "",
+              "password": "",
+              "passwordR": ""
+            }
+            
++ Response 200 (application/json)
+    
+
+# /api/login
+## Login with existing user [POST]
+Login with user
++ Request (application/json)
+    
+    + Attributes
+        + email: Email dell'account
+        + password: Password dell'account
+
+    + Body
+
+            {
+              "email": "mod@mod.it",
+              "password": "Moderatore0"
+            }
+            
 + Response 200 (application/json)
     
     + Body
     
             {
-                "status": "error",
-                "message": "A password is required"
+              "status": "ok",
+              "user": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vZCIsImVtYWlsIjoibW9kQG1vZC5pdCIsIm1vZCI6dHJ1ZSwiaWF0IjoxNjU0NTk3OTMxLCJleHAiOjE2NTQ2MDE1MzF9.eC2cGBvJ74BQ8vXo2GD7NRSvDxGakRtanbGnI2mJYbs"
             }
 
 
@@ -194,22 +230,164 @@ Return list of newest films
                 ]
             }
 
-# /api/search
+# /api/search/{?search}
 ## Search for films [GET]
-Search for films using variable ?search= + the of the film searched. For example /api/search?search=Joker will return the attributes of film Joker
+Search for films using their title (example Joker).
++ Parameters
+    + search (required, string, `Joker`) ... Title of the film searched
+    
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+                "status": "ok",
+                "movie": [
+                    {
+                        "_id": "6287a44ed9c12de99b9357a5",
+                        "title": "Joker",
+                        "year": 1991,
+                        "rating": 4.6,
+                        "Starring rating": 10,
+                        "genres": [
+                            "Comedy",
+                            "Crime"
+                        ],
+                        "cast": [
+                            "Björn Skifs",
+                            "Aja Rodas-Evrén",
+                            "Johan Ulveson",
+                            "Marie-Chantal Long",
+                            "Jacob Nordenson",
+                            "Catherine Hansson",
+                            "Gert Fylking",
+                            "Johan Paulsen",
+                            "P.G. Hylén",
+                            "Björn Kjellman",
+                            "Ragnar Ulfung",
+                            "Peter Panov",
+                            "Assen Panov",
+                            "Lars Engström",
+                            "Arne Rubensson",
+                            "Fredrik Dolk",
+                            "Hans Kellerman",
+                            "Peter Ahlm",
+                            "Hans Saxinger",
+                            "Maud Höglund",
+                            "Anders Esphagen",
+                            "Margareta Pettersson",
+                            "Claes Ljungmark",
+                            "Ali Alibhai",
+                            "Ann Canvert",
+                            "Aldi Foddis",
+                            "Hans O. Sjöberg",
+                            "Dick Olsson",
+                            "Victor Kritz-Hedqvist",
+                            "Pontus Bjuring-Gerlich",
+                            "Rinkeby Kids",
+                            "Eric Bibb",
+                            "Astors 'Pelle' Bellsybus",
+                            "Lennart Järnstad"
+                        ],
+                        "cover": "https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg"
+                    }
+                ]
+            }
+
+# /api/watchlist
+## Load watchlist [GET]
+Load list of films saved by the user. You must be logged in to call the api, as it need a jwt token we cannot make a request from this page.
 + Response 200 (application/json)
     
     + Body
     
             {
                 "status": "error",
-                "error": "movies not found"
+                "error": "invalid token"
             }
 
+## Add watchlist [POST]
+Add film to your personal watchlist. You must be logged in to call the api, as it need a jwt token we cannot make a request from this page.
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+                "status": "error",
+                "error": "invalid token"
+            }
+
+# /api/movies/{id}
+## Search for films [GET]
+Search for films using their title (example Joker, Aliens).
++ Parameters
+    + id (required, string, `Joker`) ... Title of the film searched
+
++ Response 200 (application/json)
+    
+    + Body 
+        
+            {
+                "status": "ok",
+                "movie": {
+                    "_id": "6287a44ed9c12de99b9357a5",
+                    "title": "Joker",
+                    "year": 1991,
+                    "rating": 4.6,
+                    "Starring rating": 10,
+                    "genres": [
+                        "Comedy",
+                        "Crime"
+                    ],
+                    "cast": [
+                        "Björn Skifs",
+                        "Aja Rodas-Evrén",
+                        "Johan Ulveson",
+                        "Marie-Chantal Long",
+                        "Jacob Nordenson",
+                        "Catherine Hansson",
+                        "Gert Fylking",
+                        "Johan Paulsen",
+                        "P.G. Hylén",
+                        "Björn Kjellman",
+                        "Ragnar Ulfung",
+                        "Peter Panov",
+                        "Assen Panov",
+                        "Lars Engström",
+                        "Arne Rubensson",
+                        "Fredrik Dolk",
+                        "Hans Kellerman",
+                        "Peter Ahlm",
+                        "Hans Saxinger",
+                        "Maud Höglund",
+                        "Anders Esphagen",
+                        "Margareta Pettersson",
+                        "Claes Ljungmark",
+                        "Ali Alibhai",
+                        "Ann Canvert",
+                        "Aldi Foddis",
+                        "Hans O. Sjöberg",
+                        "Dick Olsson",
+                        "Victor Kritz-Hedqvist",
+                        "Pontus Bjuring-Gerlich",
+                        "Rinkeby Kids",
+                        "Eric Bibb",
+                        "Astors 'Pelle' Bellsybus",
+                        "Lennart Järnstad"
+                    ],
+                    "reviews": [
+                        "This is Joker seemingly it is the swedish orginal which the joker reboot from 2019 have taken inspiration from. This is one of the best and well executed films in all time and of course they have Björn skifs in the role as Nicke the version of Joker in this universe. This is basically Joker hunted by the italian mafia while fighting nazis",
+                        "This is a movie that only those who have felt alone and isolated can truly relate to it. You understand the motive and you feel sorry for the character. A lot of people will see this movie and think that it encourages violence. But truly, this movie should encourage each and every one of us to become a better person, treat everyone with respect and make each other feel like they belong in this world, instead of making them feel isolated.",
+                        "I give him 10 on 10000000000999999999999999 ^9999",
+                        "Joker doesn't understand its representation of violence because it doesn't know what to do with its politics, opting instead for a confused aestheticization of anarchy, all incendiary chants and masked malcontents thronging the streets"
+                    ],
+                    "cover": "https://m.media-amazon.com/images/M/MV5BMDUzMjNjZWUtMjY5Ny00YjQ0LWEwYjgtMWYzOWU1MDdkOThhXkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_SY150_CR2,0,101,150_.jpg"
+                }
+            }
 
 # /api/addreview
 ## Add review [POST]
-Add a review to a movie, it is called in the relative movie page.
+Add a review to a movie, it is called in the relative movie page. You must be logged in to call the api, as it need a jwt token we cannot make a request from this page.
 + Response 200 (application/json)
     
     + Body
@@ -222,9 +400,9 @@ Add a review to a movie, it is called in the relative movie page.
 
 # /api/reviews
 ## Return users reviews [GET]
-If the header contains valid moderator, returns list of users reviews
+If the header contains valid moderator, returns list of users reviews. You must be logged in as a moderator to call the api, as it need a jwt token we cannot make a request from this page.
 + Response 200 (application/json)
-
+    
     + Body
     
             {
@@ -234,7 +412,7 @@ If the header contains valid moderator, returns list of users reviews
 
 # /api/user
 ## Return user [GET]
-If the header contains a valid token, it provides information about the user
+If the header contains a valid token, it provides information about the user. You must be logged in to call the api, as it need a jwt token we cannot make a request from this page.
 + Response 200 (application/json)
 
     + Body
@@ -246,7 +424,7 @@ If the header contains a valid token, it provides information about the user
 
 # /api/removereviews
 ## Remove reviews [POST]
-If the header contains valid moderator, remove the reviews to: user, movie, review. it is called in the moderator page
+If the header contains valid moderator, remove the reviews to: user, movie, review. You must be logged in as a moderator to call the api, as it need a jwt token we cannot make a request from this page.
 + Response 200 (application/json)
 
     + Body

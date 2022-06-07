@@ -1,0 +1,28 @@
+name: Starring CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API}}
+          heroku_app_name: "starring-client"
+          heroku_email: "andrea.coppari@proton.me"
+          appdir: "client"
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API}}
+          heroku_app_name: "starring-server"
+          heroku_email: "andrea.coppari@proton.me"
+          appdir: "server"

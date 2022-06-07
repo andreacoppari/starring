@@ -1,27 +1,31 @@
 # Starring
 
-[Starring](http://starring.herokuapp.com) è una piattaforma che nasce con l'intento di rivalutare le recensioni sui film lasciate dagli utenti di IMDb.com. Al fine di ottenere un nuovo star rating le recensioni vengono analizzate da un'intelligenza artificiale che esegue un text-classification task sul testo delle recensioni, attribuendo ad ognuna di esse un nuovo valore compreso tra 1 e 10.
+[Starring](http://starring-client.herokuapp.com) è una piattaforma che nasce con l'intento di rivalutare le recensioni sui film lasciate dagli utenti di IMDb.com. Al fine di ottenere un nuovo star rating le recensioni vengono analizzate da un'intelligenza artificiale che esegue un text-classification task sul testo delle recensioni, attribuendo ad ognuna di esse un nuovo valore compreso tra 1 e 10.
 
 Nelle prime implementazioni la piattaforma considera solo le recensioni valutate più utili da IMDb, ovvero quelle più votate dagli utenti, poiché calcolare lo "Starring rating" prendendo tutte le recensioni di tutti i film (~10 milioni di film) sarebbe troppo dispendioso in termini di tempo. Bisogna però sottolineare che in molti casi nonostante il numero ridotto di recensioni, i risultati sono notevoli in quanto a vicinanza al voto della Metacritica.
 
 ## Usage
 
-Starring è stata deployata tramite Heroku, è attualmente online all'indirizzo [http://starring.herokuapp.com](http://starring.herokuapp.com).
+Starring è stata deployata tramite Heroku, è attualmente online all'indirizzo [http://starring-client.herokuapp.com](http://starring-client.herokuapp.com).
 
 Per provarla in locale invece, clonare il repository e lanciare:
 
 ```bash
 make install
 ```
-Successivamente in due terminali diversi lanciare dalla cartella starring in comandi:
+Successivamente lanciare:
 ```bash
 make client
 ```
-e
-```bash
-make server
-```
 L'applicazione sarà accessibile tramite [http://localhost:1234](http://localhost:1234).
+
+## Testing
+
+Per lanciare i test:
+```bash
+make test
+```
+Dato un problema che non siamo riusciti a risolvere durante il secondo Sprint, il processo non termina alla fine dei test, procedete pure con Ctrl+C.
 
 ## Project team
 
